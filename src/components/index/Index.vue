@@ -4,28 +4,44 @@
       <IndexHeader></IndexHeader>
     </el-header>
     <el-main>
-      <el-carousel :interval="4000" arrow="always" :height="316/936*screenWidth-50">
+      <el-carousel :interval="4000" arrow="always" :height="carouselHeight">
         <el-carousel-item v-for="item in carousel_img_src_list" :key="item.index">
           <img class="carousel-image" :src="item.url"/>
         </el-carousel-item>
       </el-carousel>
-      <div class="container">
-        <div id="main_char">
-          <h3>关键特征</h3>
-          <div class="row" v-for="item in feature_small" :key="item.index">
-            <div class="col-md-3 col-xs-3 col-sm-3">
-              <img :src="item.url" class="img-responsive img-thumbnail">
-              <p>{{item.intro}}</p>
+      <h3>关键特征</h3>
+      <el-row :gutter="2">
+        <el-col v-for="item in feature_small" :key="item.index" :xs="24" :sm="8">
+          <img :src="item.url" class="img-responsive img-thumbnail"/>
+          <p>{{item.intro}}</p>
+        </el-col>
+      </el-row>
+      <el-row :gutter="2">
+        <el-col v-for="item in feature_large" :key="item.index" :xs="24" :sm="12" >
+          <img :src="item.url" class="img-responsive img-thumbnail"/>
+          <p>{{item.intro}}</p>
+        </el-col>
+      </el-row>
+      <h3>如何使用</h3>
+      <el-row :gutter="2">
+        <el-col :xs="24" :sm="12" :md="10">
+          <p>老师，同学们，我们已经跨入互联网时代，电脑已经在我们身边普及。我们还用苦恼教室没有开展课堂互动反馈的设施吗？我们是否想实现即时的沟通分享，但又不愿受到非教学的干扰呢？我们是否想让我们的教、学更轻松、自由、有趣呢？智能班课，专门为PC环境下的教、学而设计。打开PC，开启您的全新教学体验吧！</p>
+        </el-col>
+        <el-col :xs="24" :sm="12" :md="14">
+          <video width="320" height="240" controls="controls" src="../../assets/media/intro.mp4"></video>
+        </el-col>
+      </el-row>
+      <el-row :gutter="2">
+        <el-col v-for="item in guide" :key="item.index" :xs="24" :sm="12">
+          <el-card>
+            <img/>
+            <div>
+              <img/>
+              <h3></h3>
             </div>
-          </div>
-        </div>
-        <div class="row" v-for="item in feature_large" :key="item.index" style="margin-top: 10px;">
-          <div class="col-md-6 col-xs-6 col-sm-6">
-            <img :src="item.url" class="img-responsive img-thumbnail">
-            <p>{{item.intro}}</p>
-          </div>
-        </div>
-      </div>
+          </el-card>
+        </el-col>
+      </el-row>
     </el-main>
     <el-footer></el-footer>
   </el-container>
@@ -52,10 +68,14 @@ export default {
       feature_large: [
         {url: require('../../assets/image/index/index_intro_4.png'), index: 1, intro: '配套交互式数字教材,可以实现对每位学生学习进度跟踪和学习成效评价，学期末教师可以得到每位学生的数字教材学习评估报告。'},
         {url: require('../../assets/image/index/index_intro_5.png'), index: 2, intro: '对教师和学生全部免费。'}
+      ],
+      guide: [
+        {image_url: require('../../assets/image/index/index_server_1.png'), index: 1, intro_url: require('../../assets/image/index/index_server_3.png'), intro: '为学校提供学习中心定制服务。'},
+        {image_url: require('../../assets/image/index/index_server_2.png'), index: 1, intro_url: require('../../assets/image/index/index_server_4.png'), intro: '欢迎您对我们的应用提供改进意见和建议，请发送邮件至2637666515@qq.com'}
       ]
     }
   },
-  mounted () {
+  mounted: function () {
     const that = this
     window.onresize = () => {
       return (() => {
@@ -78,6 +98,11 @@ export default {
         }, 400)
       }
     }
+  },
+  computed: {
+    carouselHeight: function () {
+      return 316 / 936 * this.screenWidth - 50
+    }
   }
 }
 </script>
@@ -86,7 +111,4 @@ export default {
   .carousel-image
     display: inline-block
     max-width: 100%
-  .el-row:before
-    content: " "
-    margin-top 2px
 </style>
