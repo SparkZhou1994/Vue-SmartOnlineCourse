@@ -3,13 +3,13 @@
     <el-header>
       <IndexHeader></IndexHeader>
     </el-header>
+    <el-carousel :interval="4000" arrow="always" :height="carouselHeight">
+      <el-carousel-item v-for="item in carousel_img_src_list" :key="item.index">
+        <img class="carousel-image" :src="item.url"/>
+      </el-carousel-item>
+    </el-carousel>
     <el-main>
-      <el-carousel :interval="4000" arrow="always" :height="carouselHeight">
-        <el-carousel-item v-for="item in carousel_img_src_list" :key="item.index">
-          <img class="carousel-image" :src="item.url"/>
-        </el-carousel-item>
-      </el-carousel>
-      <h3>关键特征</h3>
+      <h3 id="feature">关键特征</h3>
       <el-row :gutter="2">
         <el-col v-for="item in feature_small" :key="item.index" :xs="24" :sm="8">
           <img :src="item.url" class="img-responsive img-thumbnail"/>
@@ -22,7 +22,7 @@
           <p>{{item.intro}}</p>
         </el-col>
       </el-row>
-      <h3>如何使用</h3>
+      <h3 id="guide">如何使用</h3>
       <el-row :gutter="2">
         <el-col :xs="24" :sm="12" :md="10">
           <p>老师，同学们，我们已经跨入互联网时代，电脑已经在我们身边普及。我们还用苦恼教室没有开展课堂互动反馈的设施吗？我们是否想实现即时的沟通分享，但又不愿受到非教学的干扰呢？我们是否想让我们的教、学更轻松、自由、有趣呢？智能班课，专门为PC环境下的教、学而设计。打开PC，开启您的全新教学体验吧！</p>
@@ -31,27 +31,32 @@
           <video width="320" height="240" controls="controls" src="../../assets/media/intro.mp4"></video>
         </el-col>
       </el-row>
-      <el-row :gutter="2">
+      <el-row :gutter="2" id="service">
         <el-col v-for="item in guide" :key="item.index" :xs="24" :sm="12">
           <el-card>
-            <img/>
+            <img :src="item.image_url"/>
             <div>
-              <img/>
-              <h3></h3>
+              <img :src="item.intro_url"/>
+              <h3>{{item.intro}}</h3>
             </div>
           </el-card>
         </el-col>
       </el-row>
     </el-main>
-    <el-footer></el-footer>
+    <el-footer>
+      <Footer></Footer>
+    </el-footer>
   </el-container>
+
 </template>
 
 <script>
 import IndexHeader from './IndexHeader'
+import Footer from '../common/Footer'
+
 export default {
   name: 'Index',
-  components: {IndexHeader},
+  components: {Footer, IndexHeader},
   data: function () {
     return {
       screenWidth: document.body.clientWidth,
@@ -71,7 +76,7 @@ export default {
       ],
       guide: [
         {image_url: require('../../assets/image/index/index_server_1.png'), index: 1, intro_url: require('../../assets/image/index/index_server_3.png'), intro: '为学校提供学习中心定制服务。'},
-        {image_url: require('../../assets/image/index/index_server_2.png'), index: 1, intro_url: require('../../assets/image/index/index_server_4.png'), intro: '欢迎您对我们的应用提供改进意见和建议，请发送邮件至2637666515@qq.com'}
+        {image_url: require('../../assets/image/index/index_server_2.png'), index: 1, intro_url: require('../../assets/image/index/index_server_4.png'), intro: '欢迎您对我们的应用提供改进意见和建议'}
       ]
     }
   },
@@ -111,4 +116,10 @@ export default {
   .carousel-image
     display: inline-block
     max-width: 100%
+  .el-main
+    background url("../../assets/image/index/index.png") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
 </style>

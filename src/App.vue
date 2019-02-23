@@ -11,6 +11,7 @@ export default {
 </script>
 
 <style>
+  @import "common/stylus/icon.css";
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
