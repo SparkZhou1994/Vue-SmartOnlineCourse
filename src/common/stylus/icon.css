@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'smar_online_course';
-  src:  url('../fonts/smar_online_course.eot?egrywu');
-  src:  url('../fonts/smar_online_course.eot?egrywu#iefix') format('embedded-opentype'),
-    url('../fonts/smar_online_course.ttf?egrywu') format('truetype'),
-    url('../fonts/smar_online_course.woff?egrywu') format('woff'),
-    url('../fonts/smar_online_course.svg?egrywu#smar_online_course') format('svg');
+  src:  url('../fonts/smar_online_course.eot?7lcecf');
+  src:  url('../fonts/smar_online_course.eot?7lcecf#iefix') format('embedded-opentype'),
+  url('../fonts/smar_online_course.ttf?7lcecf') format('truetype'),
+  url('../fonts/smar_online_course.woff?7lcecf') format('woff'),
+  url('../fonts/smar_online_course.svg?7lcecf#smar_online_course') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -59,4 +59,7 @@
 }
 .icon-list:before {
   content: "\e9ba";
+}
+.icon-plus:before {
+  content: "\ea0a";
 }

@@ -3,7 +3,7 @@
     <el-header>
       <IndexHeader></IndexHeader>
     </el-header>
-    <el-carousel :interval="4000" arrow="always" :height="carouselHeight">
+    <el-carousel :interval="4000" arrow="always" :height="carousel_height">
       <el-carousel-item v-for="item in carousel_img_src_list" :key="item.index">
         <img class="carousel-image" :src="item.url"/>
       </el-carousel-item>
@@ -59,7 +59,7 @@ export default {
   components: {Footer, IndexHeader},
   data: function () {
     return {
-      screenWidth: document.body.clientWidth,
+      screen_width: document.body.clientWidth,
       carousel_img_src_list: [
         {url: require('../../assets/image/index/index_ad_01.jpg'), index: 1},
         {url: require('../../assets/image/index/index_ad_02.jpg'), index: 2},
@@ -84,20 +84,19 @@ export default {
     const that = this
     window.onresize = () => {
       return (() => {
-        window.screenWidth = document.body.clientWidth
-        that.screenWidth = window.screenWidth
+        window.screen_width = document.body.clientWidth
+        that.screen_width = window.screen_width
       })()
     }
   },
   watch: {
-    screenWidth (val) {
+    screen_width (val) {
       if (!this.timer) {
-        this.screenWidth = val
+        this.screen_width = val
         this.timer = true
         let that = this
         setTimeout(function () {
-          // that.screenWidth = that.$store.state.canvasWidth
-          console.log(that.screenWidth)
+          console.log(that.screen_width)
           that.init()
           that.timer = false
         }, 400)
@@ -105,8 +104,8 @@ export default {
     }
   },
   computed: {
-    carouselHeight: function () {
-      return 316 / 936 * this.screenWidth - 50
+    carousel_height: function () {
+      return 316 / 936 * this.screen_width - 50
     }
   }
 }

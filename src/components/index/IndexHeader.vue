@@ -5,7 +5,7 @@
         <a href="#"><img src="../../assets/image/logo.png" height="60"></a>
       </el-col>
       <el-col :xs="20" :sm="22">
-        <el-menu :default-active="activeIndex" mode="horizontal">
+        <el-menu :default-active="active_index" mode="horizontal">
           <el-menu-item index="1">
             <a href="#">首页</a>
           </el-menu-item>
@@ -22,13 +22,13 @@
             <a href="#service">用户反馈</a>
           </el-menu-item>
           <el-menu-item index="6">
-              <a @click="loginFormVisible = true">登录</a>
+              <a @click="login_form_visible = true">登录</a>
           </el-menu-item>
         </el-menu>
       </el-col>
     </el-row>
-    <el-dialog title="邮箱密码登录" :visible.sync="loginFormVisible">
-      <Login :loginFormVisibleProp="loginFormVisible" v-on:loginVisibleFalse="changeLoginVisibleFalse($event)"></Login>
+    <el-dialog title="邮箱密码登录" :visible.sync="login_form_visible">
+      <Login :login_form_visible_prop="login_form_visible" v-on:login_visible_false="changeLoginVisibleFalse($event)"></Login>
     </el-dialog>
   </div>
 </template>
@@ -40,13 +40,13 @@ export default {
   components: {Login},
   data () {
     return {
-      loginFormVisible: false,
-      activeIndex: '1'
+      login_form_visible: false,
+      active_index: '1'
     }
   },
   methods: {
     changeLoginVisibleFalse (msg) {
-      this.loginFormVisible = msg
+      this.login_form_visible = msg
     }
   }
 }

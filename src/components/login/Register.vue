@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     changeLoginVisible: function () {
-      this.$emit('registerVisibleFalse', false)
+      this.$emit('register_visible_false', false)
     }
   }
 }
