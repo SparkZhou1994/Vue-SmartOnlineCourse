@@ -7,7 +7,7 @@
     </el-form>
     <div class="dialog-footer">
       <el-button @click="changeJoinVisible">取 消</el-button>
-      <el-button type="primary" @click="changeJoinVisible">加入</el-button>
+      <el-button type="primary" @click="changeJoinVisible">加 入</el-button>
     </div>
   </div>
 </template>

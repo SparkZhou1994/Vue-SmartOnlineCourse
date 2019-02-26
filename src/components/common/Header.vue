@@ -41,4 +41,6 @@ export default {
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  a:hover
+    text-decoration none
 </style>

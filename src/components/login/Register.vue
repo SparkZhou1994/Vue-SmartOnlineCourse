@@ -16,7 +16,7 @@
     </el-form>
     <div class="dialog-footer">
       <el-button @click="changeLoginVisible">取 消</el-button>
-      <el-button type="primary" @click="changeLoginVisible">注册</el-button>
+      <el-button type="primary" @click="changeLoginVisible">注 册</el-button>
     </div>
   </div>
 </template>
