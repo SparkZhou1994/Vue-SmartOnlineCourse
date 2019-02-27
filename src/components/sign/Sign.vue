@@ -4,7 +4,8 @@
       <Header></Header>
       <CourseHeader></CourseHeader>
     </el-header>
-    <el-main></el-main>
+    <el-main>
+    </el-main>
     <el-footer>
       <Footer></Footer>
     </el-footer>
@@ -15,9 +16,11 @@
 import Header from '../common/Header'
 import CourseHeader from '../course/CourseHeader'
 import Footer from '../common/Footer'
+import ReleaseSign from './ReleaseSign'
+import SignIn from './SignIn'
 export default {
   name: 'Sign',
-  components: {Footer, CourseHeader, Header}
+  components: {SignIn, ReleaseSign, Footer, CourseHeader, Header}
 }
 </script>
 
