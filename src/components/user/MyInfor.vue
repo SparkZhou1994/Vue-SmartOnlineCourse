@@ -28,8 +28,8 @@
         </el-form-item>
       </el-form>
       <div class="dialog-footer">
-        <el-button @click="changeAddVisible">取 消</el-button>
-        <el-button type="primary" @click="changeAddVisible">保 存</el-button>
+        <el-button>取 消</el-button>
+        <el-button type="primary">保 存</el-button>
       </div>
     </el-main>
     <el-footer>

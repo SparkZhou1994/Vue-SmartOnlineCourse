@@ -1,17 +1,17 @@
 @font-face {
-  font-family: 'smar_online_course';
-  src:  url('../fonts/smar_online_course.eot?7lcecf');
-  src:  url('../fonts/smar_online_course.eot?7lcecf#iefix') format('embedded-opentype'),
-  url('../fonts/smar_online_course.ttf?7lcecf') format('truetype'),
-  url('../fonts/smar_online_course.woff?7lcecf') format('woff'),
-  url('../fonts/smar_online_course.svg?7lcecf#smar_online_course') format('svg');
+  font-family: 'smart_online_course';
+  src:  url('../fonts/smart_online_course.eot?7lcecf');
+  src:  url('../fonts/smart_online_course.eot?7lcecf#iefix') format('embedded-opentype'),
+  url('../fonts/smart_online_course.ttf?7lcecf') format('truetype'),
+  url('../fonts/smart_online_course.woff?7lcecf') format('woff'),
+  url('../fonts/smart_online_course.svg?7lcecf#smar_online_course') format('svg');
   font-weight: normal;
   font-style: normal;
 }
 
 [class^="icon-"], [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family: 'smar_online_course' !important;
+  font-family: 'smart_online_course' !important;
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -36,6 +36,12 @@
 .icon-profile:before {
   content: "\e923";
 }
+.icon-paste:before {
+  content: "\e92d";
+}
+.icon-price-tag:before {
+  content: "\e935";
+}
 .icon-barcode:before {
   content: "\e937";
 }
@@ -44,6 +50,9 @@
 }
 .icon-envelop:before {
   content: "\e945";
+}
+.icon-history:before {
+  content: "\e94d";
 }
 .icon-clock:before {
   content: "\e94e";

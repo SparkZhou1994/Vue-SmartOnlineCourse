@@ -5,6 +5,8 @@ import MyIndex from '@/components/user/MyIndex'
 import CoursePackage from '@/components/course/CoursePackage'
 import MyInfor from '@/components/user/MyInfor'
 import Sign from '@/components/sign/Sign'
+import CourseWare from '@/components/courseWare/CourseWare'
+import Homework from '@/components/homework/Homework'
 
 Vue.use(Router)
 
@@ -34,6 +36,16 @@ export default new Router({
       path: '/sign',
       name: 'Sign',
       component: Sign
+    },
+    {
+      path: '/course_ware',
+      name: 'CourseWare',
+      component: CourseWare
+    },
+    {
+      path: '/homework',
+      name: 'Homework',
+      component: Homework
     }
   ]
 })
