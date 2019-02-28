@@ -7,6 +7,7 @@ import MyInfor from '@/components/user/MyInfor'
 import Sign from '@/components/sign/Sign'
 import CourseWare from '@/components/courseWare/CourseWare'
 import Homework from '@/components/homework/Homework'
+import Discuss from '@/components/discuss/Discuss'
 
 Vue.use(Router)
 
@@ -46,6 +47,11 @@ export default new Router({
       path: '/homework',
       name: 'Homework',
       component: Homework
+    },
+    {
+      path: '/discuss',
+      name: 'Discuss',
+      component: Discuss
     }
   ]
 })

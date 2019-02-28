@@ -22,7 +22,7 @@
     </el-form>
     <div class="dialog-footer">
       <el-button @click="changeHomeworkCreateVisible">取 消</el-button>
-      <el-button type="primary" @click="changeHomeworkCreateVisible">保 存</el-button>
+      <el-button type="primary" @click="changeHomeworkCreateVisible">创 建</el-button>
     </div>
   </div>
 </template>

@@ -15,7 +15,7 @@
     </el-form>
     <div class="dialog-footer">
       <el-button @click="changeCourseWareUploadVisible">取 消</el-button>
-      <el-button type="primary" @click="changeCourseWareUploadVisible">保 存</el-button>
+      <el-button type="primary" @click="changeCourseWareUploadVisible">上 传</el-button>
     </div>
   </div>
 </template>
