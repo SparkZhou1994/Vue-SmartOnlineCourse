@@ -24,7 +24,7 @@ export default {
 }
 </script>
 
-<style lang="stylus" rel="stylesheet/stylus">
+<style lang="stylus" rel="stylesheet/stylus" scoped>
   .course-header
     background url("../../assets/image/course/header_background.jpg") no-repeat center center fixed;
     -webkit-background-size: cover;
