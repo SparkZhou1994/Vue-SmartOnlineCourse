@@ -24,6 +24,7 @@
 <script>
 export default {
   name: 'Register',
+  props: ['register_form_visible_prop'],
   data: function () {
   },
   methods: {

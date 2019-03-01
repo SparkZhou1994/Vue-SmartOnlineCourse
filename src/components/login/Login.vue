@@ -14,7 +14,7 @@
       <el-button type="primary" @click="changeLoginVisible">登 录</el-button>
     </div>
     <el-dialog title="注册" :visible.sync="register_form_visible">
-      <Register :register_form_visibleProp="register_form_visible" v-on:register_visible_false="changeRegisterVisibleFalse($event)"></Register>
+      <Register :register_form_visible_prop="register_form_visible" v-on:register_visible_false="changeRegisterVisibleFalse($event)"></Register>
     </el-dialog>
   </div>
 </template>

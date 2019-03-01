@@ -8,6 +8,8 @@ import Sign from '@/components/sign/Sign'
 import CourseWare from '@/components/courseWare/CourseWare'
 import Homework from '@/components/homework/Homework'
 import Discuss from '@/components/discuss/Discuss'
+import DiscussContent from '@/components/discussContent/DiscussContent'
+import Message from '@/components/message/Message'
 
 Vue.use(Router)
 
@@ -52,6 +54,16 @@ export default new Router({
       path: '/discuss',
       name: 'Discuss',
       component: Discuss
+    },
+    {
+      path: '/discuss_content',
+      name: 'DiscussContent',
+      component: DiscussContent
+    },
+    {
+      path: '/message',
+      name: 'Message',
+      component: Message
     }
   ]
 })
