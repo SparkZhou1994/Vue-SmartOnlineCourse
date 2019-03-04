@@ -47,13 +47,11 @@
       <Footer></Footer>
     </el-footer>
   </el-container>
-
 </template>
 
 <script>
 import IndexHeader from './IndexHeader'
 import Footer from '../common/Footer'
-
 export default {
   name: 'Index',
   components: {Footer, IndexHeader},
@@ -81,26 +79,21 @@ export default {
     }
   },
   mounted: function () {
-    const that = this
-    window.onresize = () => {
-      return (() => {
-        window.screen_width = document.body.clientWidth
-        that.screen_width = window.screen_width
-      })()
-    }
+    this.alter()
   },
-  watch: {
-    screen_width (val) {
-      if (!this.timer) {
-        this.screen_width = val
-        this.timer = true
-        let that = this
-        setTimeout(function () {
-          console.log(that.screen_width)
-          that.init()
-          that.timer = false
-        }, 400)
-      }
+  methods: {
+    alter: function () {
+      this.$axios({
+        method: 'GET',
+        url: '/api/user/1',
+        data: {}
+      })
+        .then(function (response) {
+          console.log(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     }
   },
   computed: {
