@@ -44,7 +44,7 @@ export default {
       })
         .then(function (response) {
           if (response.data.version === 0) {
-            _this.message('注册成功')
+            _this.$message('注册成功')
           } else {
             _this.$message.error('注册失败')
           }

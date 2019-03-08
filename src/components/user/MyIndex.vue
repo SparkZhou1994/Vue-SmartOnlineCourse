@@ -23,10 +23,10 @@
       <el-row :gutter="2">
         <el-col v-for="item in course" :key="item.index" :xs="12" :sm="6" :md="4">
           <el-card>
-            <img :src="item.image_url" class="img-responsive img-thumbnail"/>
+            <img :src="item.avatar" class="img-responsive img-thumbnail"/>
             <div>
-              <h3>{{item.name}}</h3>
-              <h5>{{item.username}}</h5>
+              <h3>{{item.courseName}}</h3>
+              <h5>{{item.OwnerUsername}}</h5>
             </div>
           </el-card>
         </el-col>
@@ -54,20 +54,35 @@ export default {
   components: {JoinCourse, CreateCourse, Footer, Header},
   data: function () {
     return {
+      user: this.$router.params.user,
       visible: false,
       add_visible: false,
       join_visible: false,
       course: [
-        {name: 'Java', username: 'Spark', image_url: require('../../assets/image/course/default.png')},
-        {name: 'Java', username: 'Spark', image_url: require('../../assets/image/course/default.png')},
-        {name: 'Java', username: 'Spark', image_url: require('../../assets/image/course/default.png')},
-        {name: 'Java', username: 'Spark', image_url: require('../../assets/image/course/default.png')},
-        {name: 'Java', username: 'Spark', image_url: require('../../assets/image/course/default.png')},
-        {name: 'Java', username: 'Spark', image_url: require('../../assets/image/course/default.png')}
+        {courseName: 'Java', OwnerUsername: 'Spark', avatar: require('../../assets/image/course/default.png')},
+        {courseName: 'Java', OwnerUsername: 'Spark', avatar: require('../../assets/image/course/default.png')},
+        {courseName: 'Java', OwnerUsername: 'Spark', avatar: require('../../assets/image/course/default.png')},
+        {courseName: 'Java', OwnerUsername: 'Spark', avatar: require('../../assets/image/course/default.png')},
+        {courseName: 'Java', OwnerUsername: 'Spark', avatar: require('../../assets/image/course/default.png')},
+        {courseName: 'Java', OwnerUsername: 'Spark', avatar: require('../../assets/image/course/default.png')}
       ]
     }
   },
+  mounted: function () {
+    console.log(this.$route.params.user)
+  },
   methods: {
+    getCourseList () {
+      var _this = this
+      this.$axios({
+        method: 'GET',
+        url: '/api/chooseCourse/userId/' + this.user.userId,
+        data: {}
+      })
+        .then(function (response) {
+          _this.course = response.data
+        })
+    },
     createCourse () {
       this.add_visible = true
     },
