@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="signData" style="width: 100%" max-height="250">
+  <el-table :data="signList" style="width: 100%" max-height="250">
     <el-table-column fixed prop="username" label="学生姓名" width="150">
     </el-table-column>
     <el-table-column prop="batch" label="批次" width="150">
@@ -16,13 +16,15 @@
 <script>
 export default {
   name: 'SignTable',
+  props: ['sign_list_prop'],
   data () {
     return {
-      signData: [
-        {username: 'Spark', batch: 1, endTime: '2019-02-02 11:15:15', signTime: '2019-02-02 13:28:43', range: '超时签到'},
-        {username: 'Spark', batch: 1, endTime: '2019-02-02 11:15:15', signTime: '2019-02-02 13:28:43', range: '超时签到'}
-      ]
+      signList: this.sign_list_prop
     }
+  },
+  mounted: function () {
+    var _this = this
+    _this.signList = _this.sign_list_prop
   }
 }
 </script>

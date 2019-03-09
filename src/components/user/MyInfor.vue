@@ -1,18 +1,18 @@
 <template>
   <el-container>
     <el-header>
-      <Header></Header>
+      <Header :user_prop="user"></Header>
     </el-header>
     <el-main>
       <el-form>
         <el-form-item>
-          <el-input :placeholder="user.username" prefix-icon="icon-user"></el-input>
+          <el-input :placeholder="user.username" v-model="user.username" prefix-icon="icon-user"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input :placeholder="user.telphone" prefix-icon="icon-phone"></el-input>
+          <el-input :placeholder="user.telphone" v-model="user.telphone" prefix-icon="icon-phone"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-input :placeholder="user.email" prefix-icon="icon-envelop"></el-input>
+          <el-input :placeholder="user.email" v-model="user.email" prefix-icon="icon-envelop"></el-input>
         </el-form-item>
         <el-form-item>
           <el-row>
@@ -20,7 +20,7 @@
               <img src="../../assets/image/user/default.png" class="img-responseive img-thumbnail"/>
             </el-col>
             <el-col :xs="12" :sm="12">
-              <el-upload class="text-left">
+              <el-upload class="text-left" :before-upload="beforeUpload" :file-list="fileList" :limit="1" :data="message">
                 <el-button size="small" type="primary">点击上传封面图片</el-button>
               </el-upload>
             </el-col>
@@ -46,7 +46,20 @@ export default {
   components: {Footer, Header},
   data: function () {
     return {
-      user: {username: 'Spark', telphone: '13127945312', email: 'zhoujuhui@qq.com'}
+      user: this.$route.params.user,
+      message: {
+        message: ''
+      }
+    }
+  },
+  mounted: function () {
+    var _this = this
+    _this.user = _this.$route.params.user
+    console.log(_this.user)
+  },
+  methods: {
+    beforeUpload: function () {
+
     }
   }
 }

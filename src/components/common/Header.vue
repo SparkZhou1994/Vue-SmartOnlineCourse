@@ -13,18 +13,26 @@
     <el-col :xs="24" :sm="12">
       <el-menu mode="horizontal">
         <el-menu-item index="1">
-          <a href="#"><i class="icon-library"></i>课程包</a>
+          <router-link :to="{name: 'CoursePackage', params: {user: this.user}}">
+            <a href="#"><i class="icon-library"></i>课程包</a>
+          </router-link>
         </el-menu-item>
         <el-menu-item index="2">
-          <a href="#"><i class="icon-book"></i>我的课程</a>
+          <router-link :to="{name: 'MyIndex', params: {user: this.user}}">
+            <a href="#"><i class="icon-book"></i>我的课程</a>
+          </router-link>
         </el-menu-item>
         <el-menu-item index="3" class="hidden-sm-and-down">
-          <a>
-            <img src="../../assets/image/user/default.png" height="60"/>
-          </a>
+          <router-link :to="{name: 'MyInfor', params: {user: this.user}}">
+            <a>
+              <img src="../../assets/image/user/default.png" height="60"/>
+            </a>
+          </router-link>
         </el-menu-item>
         <el-menu-item>
-          <a>Spark</a>
+          <router-link :to="{name: 'MyInfor', params: {user: this.user}}">
+            <a>Spark</a>
+          </router-link>
         </el-menu-item>
         <el-menu-item >
           <a>退出</a>
@@ -36,7 +44,17 @@
 
 <script>
 export default {
-  name: 'Header'
+  name: 'Header',
+  props: ['user_prop'],
+  data: function () {
+    return {
+      user: this.user_prop
+    }
+  },
+  mounted: function () {
+    var _this = this
+    _this.user = _this.user_prop
+  }
 }
 </script>
 

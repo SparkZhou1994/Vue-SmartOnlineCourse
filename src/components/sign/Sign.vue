@@ -1,13 +1,13 @@
 <template>
   <el-container>
     <el-header>
-      <Header></Header>
+      <Header :user_prop="user"></Header>
     </el-header>
     <el-main>
-      <CourseHeader></CourseHeader>
-      <SignIn v-show="!user.own"></SignIn>
-      <SignRelease v-show="user.own"></SignRelease>
-      <SignTable></SignTable>
+      <CourseHeader :course_prop="course" :user_prop="user"></CourseHeader>
+      <SignIn v-show="!ownFlag"></SignIn>
+      <SignRelease v-show="ownFlag"></SignRelease>
+      <SignTable :sign_list_prop="signList"></SignTable>
     </el-main>
     <el-footer>
       <Footer></Footer>
@@ -28,7 +28,39 @@ export default {
   components: {SignTable, SignIn, SignRelease, Footer, CourseHeader, Header},
   data: function () {
     return {
-      user: {own: false}
+      user: this.$route.params.user,
+      course: this.$route.params.course,
+      signList: {},
+      own: false
+    }
+  },
+  computed: {
+    ownFlag: function () {
+      if (this.user.userId === this.course.ownerUserId) {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
+  mounted: function () {
+    var _this = this
+    _this.user = _this.$route.params.user
+    _this.course = _this.$route.params.course
+    console.log(_this.course)
+    _this.getSignList(_this.course.chooseCourseId)
+  },
+  methods: {
+    getSignList: function (chooseCourseId) {
+      var _this = this
+      this.$axios({
+        method: 'GET',
+        url: '/api/sign/' + chooseCourseId + '/0/5',
+        data: {}
+      })
+        .then(function (response) {
+          _this.signList = response.data
+        })
     }
   }
 }

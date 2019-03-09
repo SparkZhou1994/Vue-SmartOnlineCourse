@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header>
-      <Header></Header>
+      <Header :user_prop="user"></Header>
     </el-header>
     <el-main>
       <el-row>
@@ -17,18 +17,20 @@
           </el-popover>
         </el-col>
         <el-col :xs="20" :sm="22">
-          <h4 class="text-right text-info">5个进行中的班课</h4>
+          <h4 class="text-right text-info">{{course.length}}个进行中的班课</h4>
         </el-col>
       </el-row>
       <el-row :gutter="2">
         <el-col v-for="item in course" :key="item.index" :xs="12" :sm="6" :md="4">
-          <el-card>
-            <img :src="item.avatar" class="img-responsive img-thumbnail"/>
-            <div>
-              <h3>{{item.courseName}}</h3>
-              <h5>{{item.OwnerUsername}}</h5>
-            </div>
-          </el-card>
+          <a @click="signPage(item)">
+            <el-card>
+              <img :src="item.avatar" class="img-responsive img-thumbnail"/>
+              <div>
+                <h3>{{item.courseName}}</h3>
+                <h5>{{item.OwnerUsername}}</h5>
+              </div>
+            </el-card>
+          </a>
         </el-col>
       </el-row>
     </el-main>
@@ -54,34 +56,34 @@ export default {
   components: {JoinCourse, CreateCourse, Footer, Header},
   data: function () {
     return {
-      user: this.$router.params.user,
+      user: this.$route.params.user,
       visible: false,
       add_visible: false,
       join_visible: false,
       course: [
-        {courseName: 'Java', OwnerUsername: 'Spark', avatar: require('../../assets/image/course/default.png')},
-        {courseName: 'Java', OwnerUsername: 'Spark', avatar: require('../../assets/image/course/default.png')},
-        {courseName: 'Java', OwnerUsername: 'Spark', avatar: require('../../assets/image/course/default.png')},
-        {courseName: 'Java', OwnerUsername: 'Spark', avatar: require('../../assets/image/course/default.png')},
-        {courseName: 'Java', OwnerUsername: 'Spark', avatar: require('../../assets/image/course/default.png')},
-        {courseName: 'Java', OwnerUsername: 'Spark', avatar: require('../../assets/image/course/default.png')}
       ]
     }
   },
   mounted: function () {
-    console.log(this.$route.params.user)
+    var _this = this
+    _this.user = _this.$route.params.user
+    _this.getCourseList()
   },
   methods: {
     getCourseList () {
       var _this = this
       this.$axios({
         method: 'GET',
-        url: '/api/chooseCourse/userId/' + this.user.userId,
+        url: '/api/chooseCourse/userId/' + _this.user.userId,
         data: {}
       })
         .then(function (response) {
           _this.course = response.data
         })
+    },
+    signPage (courseItem) {
+      var _this = this
+      _this.$router.push({name: 'Sign', params: {user: _this.user, course: courseItem}})
     },
     createCourse () {
       this.add_visible = true

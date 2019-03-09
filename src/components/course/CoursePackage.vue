@@ -1,13 +1,13 @@
 <template>
     <el-container>
       <el-header>
-        <Header></Header>
+        <Header :user_prop="user"></Header>
       </el-header>
       <el-main>
         <el-row :gutter="2">
           <el-col>
-            <el-input :placeholder="请输入课程名">
-              <a slot="suffix" class="icon-search" style="font-size: 30px"></a>
+            <el-input v-model="selectCourseName" placeholder="请输入课程名">
+              <a slot="suffix" class="icon-search" style="font-size: 30px" @click="getSelectCourse"></a>
             </el-input>
           </el-col>
         </el-row>
@@ -24,10 +24,10 @@
         <el-row :gutter="2">
           <el-col v-for="item in course" :key="item.index" :xs="12" :sm="6" :md="4">
             <el-card>
-              <img :src="item.image_url" class="img-responsive img-thumbnail"/>
+              <img :src="item.avatar" class="img-responsive img-thumbnail"/>
               <div>
-                <h3>{{item.name}}</h3>
-                <h5>{{item.username}}</h5>
+                <h3>{{item.courseName}}</h3>
+                <h5>{{item.ownerUsername}}</h5>
               </div>
             </el-card>
           </el-col>
@@ -48,16 +48,49 @@ export default {
   data: function () {
     return {
       course: [
-        {name: 'Java', username: 'Spark', image_url: require('../../assets/image/course/default.png')},
-        {name: 'Java', username: 'Spark', image_url: require('../../assets/image/course/default.png')},
-        {name: 'Java', username: 'Spark', image_url: require('../../assets/image/course/default.png')},
-        {name: 'Java', username: 'Spark', image_url: require('../../assets/image/course/default.png')},
-        {name: 'Java', username: 'Spark', image_url: require('../../assets/image/course/default.png')},
-        {name: 'Java', username: 'Spark', image_url: require('../../assets/image/course/default.png')}
-      ]
+      ],
+      user: this.$route.params.user,
+      selectCourseName: ''
     }
   },
+  watch: {
+    course: function (val) {
+      this.course = val
+    }
+  },
+  mounted: function () {
+    var _this = this
+    _this.user = _this.$route.params.user
+    console.log(_this.user)
+    this.getTopCourse()
+  },
   methods: {
+    getTopCourse: function () {
+      var _this = this
+      this.$axios({
+        method: 'GET',
+        url: '/api/course/0/6',
+        data: {}
+      })
+        .then(function (response) {
+          _this.course = response.data
+        })
+    },
+    getSelectCourse: function () {
+      console.log('1')
+      var _this = this
+      this.$axios({
+        method: 'GET',
+        url: '/api/course/' + this.selectCourseName + '/0/6',
+        data: {}
+      })
+        .then(function (response) {
+          if (response.data.length === 0) {
+            _this.$message.error('查无此课')
+          }
+          _this.course = response.data
+        })
+    }
   }
 }
 </script>
