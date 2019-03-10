@@ -37,7 +37,7 @@ export default {
         data: {chooseCourseId: _this.course.chooseCourseId, code: _this.sign.code, expireTime: _this.sign.expireTime}
       })
         .then(function (response) {
-          if (response.data.code === _this.sign.code) {
+          if (response.data.length > 0) {
             _this.$message('签到创建成功')
           } else {
             _this.$message.error('签到创建失败')

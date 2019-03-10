@@ -45,6 +45,8 @@ export default {
   },
   mounted: function () {
     var _this = this
+    _this.user = _this.$route.params.user
+    _this.course = _this.$route.params.course
     _this.getSignList(_this.course.chooseCourseId)
   },
   methods: {

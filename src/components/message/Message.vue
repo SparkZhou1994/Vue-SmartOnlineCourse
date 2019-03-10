@@ -1,16 +1,14 @@
 <template>
   <el-container>
     <el-header>
-      <Header></Header>
+      <Header :user_prop="user"></Header>
     </el-header>
     <el-main>
-      <CourseHeader></CourseHeader>
-      <el-table :data="messageData" style="width: 100%" max-height="250">
-        <el-table-column fixed prop="courseName" label="课程名" width="150">
-        </el-table-column>
+      <CourseHeader :course_prop="course" :user_prop="user"></CourseHeader>
+      <el-table :data="messageList" style="width: 100%" max-height="250" v-if="messageList.length > 0">
         <el-table-column prop="content" label="内容" width="150">
         </el-table-column>
-        <el-table-column prop="publishDate" label="发布时间" width="150">
+        <el-table-column prop="publishData" label="发布时间" width="150">
         </el-table-column>
         <el-table-column label="操作" width="100">
           <template slot-scope="scope">
@@ -34,16 +32,44 @@ export default {
   components: {Header, CourseHeader, Footer},
   data: function () {
     return {
-      messageData: [
-        {courseName: 'Java', content: '你有一个新课件', publishDate: '2019-02-02'},
-        {courseName: 'Java', content: '你有一个新课件', publishDate: '2019-02-02'},
-        {courseName: 'Java', content: '你有一个新课件', publishDate: '2019-02-02'}
-      ]
+      messageList: [
+      ],
+      user: this.$route.params.user,
+      course: this.$route.params.course
     }
   },
+  mounted: function () {
+    var _this = this
+    _this.user = _this.$route.params.user
+    _this.course = _this.$route.params.course
+    _this.getMessageList(_this.course.chooseCourseId)
+  },
   methods: {
-    handleClick (row) {
-      console.log(row)
+    handleClick: function (row) {
+      var _this = this
+      _this.$axios({
+        method: 'DELETE',
+        url: '/api/message/' + row.chooseCourseId,
+        data: {}
+      })
+        .then(function (response) {
+          if (response.status === 200) {
+            _this.$message('删除成功')
+          } else {
+            _this.$message.error('删除失败')
+          }
+        })
+    },
+    getMessageList: function (chooseCourseId) {
+      var _this = this
+      this.$axios({
+        method: 'GET',
+        url: '/api/message/' + chooseCourseId + '/0/5',
+        data: {}
+      })
+        .then(function (response) {
+          _this.messageList = response.data
+        })
     }
   }
 }
