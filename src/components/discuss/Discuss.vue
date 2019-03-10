@@ -13,15 +13,17 @@
       </el-row>
       <el-row :gutter="2">
         <el-col v-for="item in discussList" :key="item.index" :xs="12" :sm="6" :md="4">
-          <el-card>
-            <div>
-              <h5>[{{item.vote}}]</h5>
-              <h5>{{item.title}}</h5>
-              <h6>{{item.username}}</h6>
-              <h6>{{item.describe}}</h6>
-              <h6>{{item.lastPublishTime}}</h6>
-            </div>
-          </el-card>
+          <a @click="discussContentPage(item)">
+            <el-card>
+              <div>
+                <h5>[{{item.vote}}]</h5>
+                <h5>{{item.title}}</h5>
+                <h6>{{item.username}}</h6>
+                <h6>{{item.describe}}</h6>
+                <h6>{{item.lastPublishTime}}</h6>
+              </div>
+            </el-card>
+          </a>
         </el-col>
       </el-row>
     </el-main>
@@ -79,6 +81,10 @@ export default {
         .then(function (response) {
           _this.discussList = response.data
         })
+    },
+    discussContentPage (item) {
+      var _this = this
+      _this.$router.push({name: 'DiscussContent', params: {user: _this.user, discuss: item, course: _this.course}})
     }
   }
 }
