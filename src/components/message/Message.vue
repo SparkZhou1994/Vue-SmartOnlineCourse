@@ -12,7 +12,7 @@
         </el-table-column>
         <el-table-column label="操作" width="100">
           <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row)" type="text" size="small">删除</el-button>
+            <el-button @click="deleteClick(scope.row)" type="text" size="small">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -45,7 +45,7 @@ export default {
     _this.getMessageList(_this.course.chooseCourseId)
   },
   methods: {
-    handleClick: function (row) {
+    deleteClick: function (row) {
       var _this = this
       _this.$axios({
         method: 'DELETE',

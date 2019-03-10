@@ -1,10 +1,10 @@
 <template>
   <el-container>
     <el-header>
-      <Header></Header>
+      <Header :user_prop="user"></Header>
     </el-header>
     <el-main>
-      <CourseHeader></CourseHeader>
+      <CourseHeader :course_prop="course" :user_prop="user"></CourseHeader>
       <el-row :gutter="2">
         <el-col>
           <el-button type="primary" @click="discuss_release_form_visible = true">发布讨论</el-button>
@@ -12,9 +12,10 @@
         </el-col>
       </el-row>
       <el-row :gutter="2">
-        <el-col v-for="item in discuss" :key="item.index" :xs="12" :sm="6" :md="4">
+        <el-col v-for="item in discussList" :key="item.index" :xs="12" :sm="6" :md="4">
           <el-card>
             <div>
+              <h5>[{{item.vote}}]</h5>
               <h5>{{item.title}}</h5>
               <h6>{{item.username}}</h6>
               <h6>{{item.describe}}</h6>
@@ -27,11 +28,11 @@
     <el-footer>
       <Footer></Footer>
     </el-footer>
-    <el-dialog title="发布讨论" :visible.sync="discuss_release_form_visible">
-      <DiscussRelease :discuss_release_form_visible_prop="discuss_release_form_visible" v-on:discuss_release_visible_false="changeDiscussReleaseVisibleFalse($event)"></DiscussRelease>
+    <el-dialog title="创建讨论" :visible.sync="discuss_release_form_visible">
+      <DiscussRelease :course_prop="course" :discuss_release_form_visible_prop="discuss_release_form_visible" v-on:discuss_release_visible_false="changeDiscussReleaseVisibleFalse($event)"></DiscussRelease>
     </el-dialog>
     <el-dialog title="发起投票" :visible.sync="vote_release_form_visible">
-      <VoteRelease :vote_release_form_visible_prop="vote_release_form_visible" v-on:vote_release_visible_false="changeVoteReleaseVisibleFalse($event)"></VoteRelease>
+      <VoteRelease :course_prop="course" :vote_release_form_visible_prop="vote_release_form_visible" v-on:vote_release_visible_false="changeVoteReleaseVisibleFalse($event)"></VoteRelease>
     </el-dialog>
   </el-container>
 </template>
@@ -49,20 +50,35 @@ export default {
     return {
       discuss_release_form_visible: false,
       vote_release_form_visible: false,
-      discuss: [
-        {title: 'Java入门容易吗', lastPublishTime: '2019-02-02 10:16:24', describe: 'Java作为一门面向对象的语言，是否容易入门', username: 'Spark'},
-        {title: 'Java入门容易吗', lastPublishTime: '2019-02-02 10:16:24', describe: 'Java作为一门面向对象的语言，是否容易入门', username: 'Spark'},
-        {title: 'Java入门容易吗', lastPublishTime: '2019-02-02 10:16:24', describe: 'Java作为一门面向对象的语言，是否容易入门', username: 'Spark'},
-        {title: 'Java入门容易吗', lastPublishTime: '2019-02-02 10:16:24', describe: 'Java作为一门面向对象的语言，是否容易入门', username: 'Spark'}
-      ]
+      discussList: [
+      ],
+      user: this.$route.params.user,
+      course: this.$route.params.course
     }
   },
+  mounted: function () {
+    var _this = this
+    _this.user = _this.$route.params.user
+    _this.course = _this.$route.params.course
+    _this.getDiscussList(_this.course.chooseCourseId)
+  },
   methods: {
-    changeDiscussReleaseVisibleFalse (msg) {
+    changeDiscussReleaseVisibleFalse: function (msg) {
       this.discuss_release_form_visible = msg
     },
-    changeVoteReleaseVisibleFalse (msg) {
+    changeVoteReleaseVisibleFalse: function (msg) {
       this.vote_release_form_visible = msg
+    },
+    getDiscussList: function (chooseCourseId) {
+      var _this = this
+      this.$axios({
+        method: 'GET',
+        url: '/api/discuss/' + chooseCourseId + '/0/6',
+        data: {}
+      })
+        .then(function (response) {
+          _this.discussList = response.data
+        })
     }
   }
 }
