@@ -61,7 +61,6 @@ export default {
   mounted: function () {
     var _this = this
     _this.user = _this.$route.params.user
-    console.log(_this.user)
     this.getTopCourse()
   },
   methods: {

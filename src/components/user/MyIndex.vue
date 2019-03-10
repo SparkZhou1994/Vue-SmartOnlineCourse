@@ -38,10 +38,10 @@
       <Footer></Footer>
     </el-footer>
     <el-dialog title="创建班课" :visible.sync="add_visible">
-      <create-course :add_visible_prop="add_visible" v-on:add_visible_false="changeAddVisibleFalse($event)"></create-course>
+      <create-course :user_prop="user" :add_visible_prop="add_visible" v-on:add_visible_false="changeAddVisibleFalse($event)"></create-course>
     </el-dialog>
     <el-dialog title="加入班课" :visible.sync="join_visible">
-      <join-course :join_visible_prop="join_visible" v-on:join_visible_false="changeJoinVisibleFalse($event)"></join-course>
+      <join-course :user_prop="user" :join_visible_prop="join_visible" v-on:join_visible_false="changeJoinVisibleFalse($event)"></join-course>
     </el-dialog>
   </el-container>
 </template>

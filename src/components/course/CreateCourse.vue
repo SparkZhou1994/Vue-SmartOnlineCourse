@@ -2,10 +2,10 @@
   <div>
     <el-form>
       <el-form-item>
-        <el-input placeholder="请输入课程名" prefix-icon="icon-book"></el-input>
+        <el-input v-model="course.courseName" placeholder="请输入课程名" prefix-icon="icon-book"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-select v-model="value" placeholder="课程分类" prefix-icon="icon-list" style="width: 100%">
+        <el-select v-model="course.catalog" placeholder="课程分类" prefix-icon="icon-list" style="width: 100%">
           <el-option
             v-for="item in catalog"
             :key="item.value"
@@ -22,7 +22,7 @@
     </el-form>
     <div class="dialog-footer">
       <el-button @click="changeAddVisible">取 消</el-button>
-      <el-button type="primary" @click="changeAddVisible">创 建</el-button>
+      <el-button type="primary" @click="changeCreateVisible">创 建</el-button>
     </div>
   </div>
 </template>
@@ -30,7 +30,7 @@
 <script>
 export default {
   name: 'CreateCourse',
-  props: ['add_visible_prop'],
+  props: ['add_visible_prop', 'user_prop'],
   data: function () {
     return {
       catalog: [
@@ -62,10 +62,32 @@ export default {
           value: '通识',
           label: '通识'
         }
-      ]
+      ],
+      user: this.user_prop,
+      course: {}
     }
   },
+  mounted: function () {
+    var _this = this
+    _this.user = _this.user_prop
+  },
   methods: {
+    changeCreateVisible: function () {
+      var _this = this
+      this.$axios({
+        method: 'POST',
+        url: '/api/course',
+        data: {courseName: _this.course.courseName, catalog: _this.course.catalog}
+      })
+        .then(function (response) {
+          if (response.data.courseName === _this.course.courseName) {
+            _this.$message('创建成功')
+          } else {
+            _this.$message.error('创建失败')
+          }
+        })
+      _this.$emit('add_visible_false', false)
+    },
     changeAddVisible: function () {
       this.$emit('add_visible_false', false)
     }

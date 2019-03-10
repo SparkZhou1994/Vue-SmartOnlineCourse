@@ -15,7 +15,7 @@
       </el-form-item>
     </el-form>
     <div class="dialog-footer">
-      <el-button @click="changeLoginVisible">取 消</el-button>
+      <el-button @click="changeRegisterVisible">取 消</el-button>
       <el-button type="primary" @click="register">注 册</el-button>
     </div>
   </div>
@@ -51,7 +51,7 @@ export default {
         })
       this.$emit('register_visible_false', false)
     },
-    changeLoginVisible: function () {
+    changeRegisterVisible: function () {
       this.$emit('register_visible_false', false)
     }
   }
