@@ -35,7 +35,9 @@
           </router-link>
         </el-menu-item>
         <el-menu-item >
-          <a>退出</a>
+          <router-link :to="{name: 'Index'}">
+            <a>退出</a>
+          </router-link>
         </el-menu-item>
       </el-menu>
     </el-col>

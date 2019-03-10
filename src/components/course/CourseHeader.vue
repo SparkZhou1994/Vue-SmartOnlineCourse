@@ -24,7 +24,7 @@
       </router-link>
     </ul>
   </el-col>
-  <el-col xs="4" :sm="8" class="text-left"><h3 class="avg-score">90</h3></el-col>
+  <el-col xs="4" :sm="8" class="text-left"><h3 class="avg-score">{{course.avgScore}}</h3></el-col>
 </el-row>
 </template>
 

@@ -5,9 +5,9 @@
     </el-header>
     <el-main>
       <CourseHeader :course_prop="course" :user_prop="user"></CourseHeader>
-      <SignIn v-show="!ownFlag"></SignIn>
-      <SignRelease v-show="ownFlag"></SignRelease>
-      <SignTable :sign_list_prop="signList"></SignTable>
+      <SignIn v-show="!ownFlag" :course_prop="course"></SignIn>
+      <SignRelease v-show="ownFlag" :course_prop="course"></SignRelease>
+      <SignTable v-if="signList.length > 0" :sign_list_prop="signList"></SignTable>
     </el-main>
     <el-footer>
       <Footer></Footer>
@@ -45,9 +45,6 @@ export default {
   },
   mounted: function () {
     var _this = this
-    _this.user = _this.$route.params.user
-    _this.course = _this.$route.params.course
-    console.log(_this.course)
     _this.getSignList(_this.course.chooseCourseId)
   },
   methods: {

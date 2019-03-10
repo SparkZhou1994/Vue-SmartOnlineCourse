@@ -24,10 +24,10 @@
         <el-col v-for="item in course" :key="item.index" :xs="12" :sm="6" :md="4">
           <a @click="signPage(item)">
             <el-card>
-              <img :src="item.avatar" class="img-responsive img-thumbnail"/>
+              <img src="item.avatar" class="img-responsive img-thumbnail"/>
               <div>
                 <h3>{{item.courseName}}</h3>
-                <h5>{{item.OwnerUsername}}</h5>
+                <h5>{{item.ownerUsername}}</h5>
               </div>
             </el-card>
           </a>
@@ -83,6 +83,7 @@ export default {
     },
     signPage (courseItem) {
       var _this = this
+      console.log(courseItem)
       _this.$router.push({name: 'Sign', params: {user: _this.user, course: courseItem}})
     },
     createCourse () {
