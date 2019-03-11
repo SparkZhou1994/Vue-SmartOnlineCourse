@@ -72,7 +72,7 @@ export default {
       discuss: this.$route.params.discuss,
       result: false,
       voteResult: {},
-      discussContentList: {}
+      discussContentList: []
     }
   },
   mounted: function () {

@@ -1,10 +1,10 @@
 <template>
-  <el-table :data="courseWareData" style="width: 100%" max-height="250">
+  <el-table :data="courseWareList" style="width: 100%" max-height="250">
     <el-table-column fixed prop="courseWareId" label="编号" width="150">
     </el-table-column>
     <el-table-column prop="courseName" label="课程名" width="150">
     </el-table-column>
-    <el-table-column prop="attachment" label="文件名" width="150">
+    <el-table-column prop="title" label="标题" width="150">
     </el-table-column>
     <el-table-column prop="batch" label="批次" width="150">
     </el-table-column>
@@ -19,6 +19,7 @@
 <script>
 export default {
   name: 'CourseWareTable',
+  props: ['course_ware_list_prop'],
   methods: {
     handleClick (row) {
       console.log(row)
@@ -26,11 +27,12 @@ export default {
   },
   data () {
     return {
-      courseWareData: [
-        {courseWareId: 1, batch: 1, courseName: 'Java', attachment: 'pom.xml', courseId: 1},
-        {courseWareId: 1, batch: 1, courseName: 'Java', attachment: 'pom.xml', courseId: 1}
-      ]
+      courseWareList: this.course_ware_list_prop
     }
+  },
+  mounted: function () {
+    var _this = this
+    _this.courseWareList = _this.course_ware_list_prop
   }
 }
 </script>

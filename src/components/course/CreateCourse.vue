@@ -15,7 +15,7 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-upload class="text-left">
+        <el-upload action="http://localhost:8090/upload/course" :before-upload="beforeUpload" :on-success="getFileName" :limit="1" class="text-left">
           <el-button size="small" type="primary">点击上传封面图片</el-button>
         </el-upload>
       </el-form-item>
@@ -77,7 +77,7 @@ export default {
       this.$axios({
         method: 'POST',
         url: '/api/course',
-        data: {courseName: _this.course.courseName, catalog: _this.course.catalog}
+        data: {courseName: _this.course.courseName, catalog: _this.course.catalog, avatar: _this.course.avatar}
       })
         .then(function (response) {
           if (response.data.courseName === _this.course.courseName) {
@@ -90,6 +90,20 @@ export default {
     },
     changeAddVisible: function () {
       this.$emit('add_visible_false', false)
+    },
+    beforeUpload: function (file) {
+      const isJPG = file.type === 'image/jpeg'
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传头像图片大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M
+    },
+    getFileName: function (response) {
+      this.course.avatar = response
     }
   }
 }

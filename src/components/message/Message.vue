@@ -32,8 +32,7 @@ export default {
   components: {Header, CourseHeader, Footer},
   data: function () {
     return {
-      messageList: [
-      ],
+      messageList: [],
       user: this.$route.params.user,
       course: this.$route.params.course
     }

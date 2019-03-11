@@ -30,7 +30,7 @@ export default {
     return {
       user: this.$route.params.user,
       course: this.$route.params.course,
-      signList: {},
+      signList: [],
       own: false
     }
   },

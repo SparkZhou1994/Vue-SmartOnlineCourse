@@ -52,8 +52,7 @@ export default {
     return {
       discuss_release_form_visible: false,
       vote_release_form_visible: false,
-      discussList: [
-      ],
+      discussList: [],
       user: this.$route.params.user,
       course: this.$route.params.course
     }
