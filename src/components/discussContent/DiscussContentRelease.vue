@@ -2,10 +2,10 @@
   <div>
     <el-form>
       <el-form-item>
-        <el-input v-model="discuss.title" disabled="true" prefix-icon="icon-barcode"></el-input>
+        <el-input v-model="discuss.title" :placeholder="discuss.title" disabled="true" prefix-icon="icon-barcode"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-input v-model="discuss.describe" disabled="true" prefix-icon="icon-price-tag"></el-input>
+        <el-input v-model="discuss.describe" :placeholder="discuss.describe" disabled="true" prefix-icon="icon-price-tag"></el-input>
       </el-form-item>
       <el-form-item>
         <el-input v-model="discussContent.content" placeholder="讨论内容" prefix-icon="icon-list"></el-input>
