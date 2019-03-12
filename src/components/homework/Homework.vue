@@ -10,7 +10,7 @@
           <el-button type="primary" v-show="ownFlag" @click="homework_create_form_visible = true">作业创建</el-button>
         </el-col>
       </el-row>
-      <HomeworkTable v-if="homeworkList.length > 0" :homework_list_prop="homeworkList"></HomeworkTable>
+      <HomeworkTable v-if="homeworkList.length > 0" :course_prop="course" :user_prop="user" :homework_list_prop="homeworkList"></HomeworkTable>
     </el-main>
     <el-footer>
       <Footer></Footer>

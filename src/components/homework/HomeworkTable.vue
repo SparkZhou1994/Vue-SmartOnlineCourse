@@ -1,9 +1,9 @@
 <template>
   <div>
-    <el-table :data="homeworkData" style="width: 100%" max-height="250">
+    <el-table :data="homeworkList" style="width: 100%" max-height="250">
       <el-table-column fixed prop="homeworkId" label="编号" width="150">
       </el-table-column>
-      <el-table-column prop="homeworkName" label="作业名" width="150">
+      <el-table-column prop="title" label="作业名" width="150">
       </el-table-column>
       <el-table-column prop="attachment" label="文件名" width="150">
       </el-table-column>
@@ -21,17 +21,17 @@
       </el-table-column>
       <el-table-column fixed="right" label="操作" width="100">
         <template slot-scope="scope">
-          <el-button @click="handleClick(scope.row)" type="text" size="small">下载</el-button>
-          <el-button @click="homeworkUpload(scope.row)" v-show="!user.own" type="text" size="small">上传</el-button>
-          <el-button @click="homeworkGrade(scope.row)" v-show="user.own" type="text" size="small">评分</el-button>
+          <el-button @click="homeworkDownload(scope.row)" type="text" size="small">下载</el-button>
+          <el-button @click="homeworkUpload(scope.row)" v-show="!ownFlag" type="text" size="small">上传</el-button>
+          <el-button @click="homeworkGrade(scope.row)" v-show="ownFlag" type="text" size="small">评分</el-button>
         </template>
       </el-table-column>
     </el-table>
     <el-dialog title="作业上传" :visible.sync="homework_upload_form_visible">
-      <HomeworkUpload :homework_upload_form_visible_prop="homework_upload_form_visible" v-on:homework_upload_visible_false="changeHomeworkUploadVisibleFalse($event)"></HomeworkUpload>
+      <HomeworkUpload :homework_prop="homework" :homework_upload_form_visible_prop="homework_upload_form_visible" v-on:homework_upload_visible_false="changeHomeworkUploadVisibleFalse($event)"></HomeworkUpload>
     </el-dialog>
     <el-dialog title="作业评分" :visible.sync="homework_grade_form_visible">
-      <HomeworkGrade :homework_grade_form_visible_prop="homework_grade_form_visible" v-on:homework_grade_visible_false="changeHomeworkGradeVisibleFalse($event)"></HomeworkGrade>
+      <HomeworkGrade :homework_prop="homework" :homework_grade_form_visible_prop="homework_grade_form_visible" v-on:homework_grade_visible_false="changeHomeworkGradeVisibleFalse($event)"></HomeworkGrade>
     </el-dialog>
   </div>
 </template>
@@ -43,30 +43,52 @@ import HomeworkGrade from '../homework/HomeworkGrade'
 export default {
   name: 'HomeworkTable',
   components: {HomeworkUpload, HomeworkGrade},
+  props: ['homework_list_prop', 'course_prop', 'user_prop'],
   data () {
     return {
-      user: {own: true},
       homework_upload_form_visible: false,
       homework_grade_form_visible: false,
-      homeworkData: [
-        {homeworkId: 1, homeworkName: 'Java', attachment: 'pom.xml', describe: 'Maven Homework', batch: 1, endTime: '2019-02-02 11:15:15', submitTime: '2019-02-02 11:15:14', score: 80, range: '按时提交'},
-        {homeworkId: 1, homeworkName: 'Java', attachment: 'pom.xml', describe: 'Maven Homework', batch: 1, endTime: '2019-02-02 11:15:15', submitTime: '2019-02-02 11:15:14', score: 80, range: '按时提交'}
-      ]
+      homeworkList: this.homework_list_prop,
+      course: this.course_prop,
+      user: this.user_prop,
+      homework: {}
     }
   },
+  computed: {
+    ownFlag: function () {
+      if (this.user.userId === this.course.ownerUserId) {
+        return true
+      } else {
+        return false
+      }
+    }
+  },
+  mounted: function () {
+    var _this = this
+    _this.homeworkList = _this.homework_list_prop
+    _this.course = _this.course_prop
+    _this.user = _this.user_prop
+  },
   methods: {
-    handleClick (row) {
-      console.log(row)
+    homeworkDownload (row) {
+      this.$axios({
+        method: 'GET',
+        url: '/api/download/homework/' + row.attachment,
+        data: {}
+      })
+        .then(function (response) {
+          console.log(response)
+        })
     },
     homeworkUpload (row) {
-      console.log(row)
+      this.homework = row
       this.homework_upload_form_visible = true
     },
     changeHomeworkUploadVisibleFalse (msg) {
       this.homework_upload_form_visible = msg
     },
     homeworkGrade (row) {
-      console.log(row)
+      this.homework = row
       this.homework_grade_form_visible = true
     },
     changeHomeworkGradeVisibleFalse (msg) {

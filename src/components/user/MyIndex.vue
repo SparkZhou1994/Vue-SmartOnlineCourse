@@ -83,7 +83,6 @@ export default {
     },
     signPage (courseItem) {
       var _this = this
-      console.log(courseItem)
       _this.$router.push({name: 'Sign', params: {user: _this.user, course: courseItem}})
     },
     createCourse () {

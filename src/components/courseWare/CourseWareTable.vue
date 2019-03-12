@@ -10,7 +10,7 @@
     </el-table-column>
     <el-table-column label="操作" width="100">
       <template slot-scope="scope">
-        <el-button @click="handleClick(scope.row)" type="text" size="small">下载</el-button>
+        <el-button @click="courseWareDownload(scope.row)" type="text" size="small">下载</el-button>
       </template>
     </el-table-column>
   </el-table>
@@ -21,8 +21,15 @@ export default {
   name: 'CourseWareTable',
   props: ['course_ware_list_prop'],
   methods: {
-    handleClick (row) {
-      console.log(row)
+    courseWareDownload (row) {
+      this.$axios({
+        method: 'GET',
+        url: '/api/download/courseWare/' + row.attachment,
+        data: {}
+      })
+        .then(function (response) {
+          console.log(response)
+        })
     }
   },
   data () {
