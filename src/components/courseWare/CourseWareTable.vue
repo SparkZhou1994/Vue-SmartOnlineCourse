@@ -22,19 +22,31 @@ export default {
   props: ['course_ware_list_prop'],
   methods: {
     courseWareDownload (row) {
+      var _this = this
+      _this.courseWare = row
       this.$axios({
         method: 'GET',
         url: '/api/download/courseWare/' + row.attachment,
         data: {}
       })
         .then(function (response) {
-          console.log(response)
+          const blob = new Blob([response])
+          if (window.navigator.msSaveOrOpenBlob) {
+            navigator.msSaveOrOpenBlob(blob, _this.homework.attachment)
+          } else {
+            let aTag = document.createElement('a')
+            aTag.download = _this.homework.attachment
+            aTag.href = URL.createObjectURL(blob)
+            aTag.click()
+            URL.revokeObjectURL(aTag.href)
+          }
         })
     }
   },
   data () {
     return {
-      courseWareList: this.course_ware_list_prop
+      courseWareList: this.course_ware_list_prop,
+      courseWare: {}
     }
   },
   mounted: function () {

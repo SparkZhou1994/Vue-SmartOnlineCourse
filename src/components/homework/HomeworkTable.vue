@@ -71,13 +71,25 @@ export default {
   },
   methods: {
     homeworkDownload (row) {
-      this.$axios({
+      var _this = this
+      _this.homework = row
+      _this.$axios({
         method: 'GET',
         url: '/api/download/homework/' + row.attachment,
+        headers: {'responseType': 'arraybuffer'},
         data: {}
       })
         .then(function (response) {
-          console.log(response)
+          const blob = new Blob([response])
+          if (window.navigator.msSaveOrOpenBlob) {
+            navigator.msSaveOrOpenBlob(blob, _this.homework.attachment)
+          } else {
+            let aTag = document.createElement('a')
+            aTag.download = _this.homework.attachment
+            aTag.href = URL.createObjectURL(blob)
+            aTag.click()
+            URL.revokeObjectURL(aTag.href)
+          }
         })
     },
     homeworkUpload (row) {

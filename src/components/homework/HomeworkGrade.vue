@@ -38,7 +38,7 @@ export default {
       })
         .then(function (response) {
           console.log(response.data)
-          if (response.data.homeworkId === _this.course.homeworkId) {
+          if (response.data.homeworkId === _this.homework.homeworkId) {
             _this.$message('作业评分成功')
           } else {
             _this.$message.error('作业评分失败')
