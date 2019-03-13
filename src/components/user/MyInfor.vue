@@ -20,7 +20,7 @@
               <img src="../../assets/image/user/default.png" class="img-responseive img-thumbnail"/>
             </el-col>
             <el-col :xs="12" :sm="12">
-              <el-upload action="http://localhost:8090/upload/user" :before-upload="beforeUpload" :on-success="getFileName" :limit="1" class="text-left">
+              <el-upload action="/api/upload/user" :before-upload="beforeUpload" :on-success="getFileName" :limit="1" class="text-left">
                 <el-button size="small" type="primary">点击上传封面图片</el-button>
               </el-upload>
             </el-col>

@@ -8,7 +8,7 @@
         <el-input v-model="courseWare.title" placeholder="课件标题" prefix-icon="icon-list"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-upload action="http://localhost:8090/upload/courseWare" :before-upload="beforeUpload" :on-success="getFileName" :limit="1" class="text-left">
+        <el-upload action="/api/upload/courseWare" :before-upload="beforeUpload" :on-success="getFileName" :limit="1" class="text-left">
           <el-button size="small" type="primary">点击上传课件文件</el-button>
         </el-upload>
       </el-form-item>

@@ -2,7 +2,7 @@
   <div>
     <el-form>
       <el-form-item>
-        <el-upload action="http://localhost:8090/upload/homework" :before-upload="beforeUpload" :on-success="getFileName" class="text-left">
+        <el-upload action="/api/upload/homework" :before-upload="beforeUpload" :on-success="getFileName" class="text-left">
           <el-button size="small" type="primary">点击上传作业文件</el-button>
         </el-upload>
       </el-form-item>
