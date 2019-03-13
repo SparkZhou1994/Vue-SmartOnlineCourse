@@ -34,7 +34,7 @@ export default {
       this.$axios({
         method: 'PUT',
         url: '/api/homework',
-        data: {version: _this.homework.version, homeworkId: _this.homework.homeworkId, score: _this.homework.score}
+        data: {version: _this.homework.version, homeworkId: _this.homework.homeworkId, score: _this.homework.score, submitTime: _this.homework.submitTime}
       })
         .then(function (response) {
           console.log(response.data)

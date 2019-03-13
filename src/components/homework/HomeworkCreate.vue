@@ -5,7 +5,7 @@
         <el-input v-model="homework.title" placeholder="作业名" prefix-icon="icon-paste"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-date-picker v-model="homework.endTime" style="width: 100%" type="datetime" placeholder="作业截止时间">
+        <el-date-picker v-model="homework.endTime" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" style="width: 100%" type="datetime" placeholder="作业截止时间">
         </el-date-picker>
       </el-form-item>
       <el-form-item>
@@ -43,7 +43,7 @@ export default {
       this.$emit('homework_create_visible_false', false)
     },
     getFileName: function (response) {
-      this.courseWare.attachment = response
+      this.homework.attachment = response
     },
     changeHomeworkToCreateVisible: function () {
       var _this = this
@@ -53,8 +53,7 @@ export default {
         data: {chooseCourseId: _this.course.chooseCourseId, title: _this.homework.title, endTime: _this.homework.endTime, describe: _this.homework.describe, attachment: _this.homework.attachment}
       })
         .then(function (response) {
-          console.log(response.data)
-          if (response.data.chooseCourseId === _this.course.chooseCourseId) {
+          if (response.data.length >= 0) {
             _this.$message('作业创建成功')
           } else {
             _this.$message.error('作业创建失败')
