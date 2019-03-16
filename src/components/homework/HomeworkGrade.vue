@@ -21,7 +21,7 @@ export default {
       homework: this.homework_prop
     }
   },
-  mounted: function () {
+  created: function () {
     var _this = this
     _this.homework = _this.homework_prop
   },

@@ -10,13 +10,13 @@
           <el-button type="primary" v-show="ownFlag" @click="homework_create_form_visible = true">作业创建</el-button>
         </el-col>
       </el-row>
-      <HomeworkTable v-if="homeworkList.length > 0" :chooseCourseId_prop="course.chooseCourseId"></HomeworkTable>
+      <HomeworkTable :chooseCourseId_prop="course.chooseCourseId"></HomeworkTable>
     </el-main>
     <el-footer>
       <Footer></Footer>
     </el-footer>
     <el-dialog title="作业创建" :visible.sync="homework_create_form_visible">
-      <HomeworkCreate :course_prop="course" :homework_create_form_visible_prop="homework_create_form_visible" v-on:homework_create_visible_false="changeHomeworkCreateVisibleFalse($event)"></HomeworkCreate>
+      <HomeworkCreate :chooseCourseId_prop="course.chooseCourseId" :homework_create_form_visible_prop="homework_create_form_visible" v-on:homework_create_visible_false="changeHomeworkCreateVisibleFalse($event)"></HomeworkCreate>
     </el-dialog>
   </el-container>
 </template>

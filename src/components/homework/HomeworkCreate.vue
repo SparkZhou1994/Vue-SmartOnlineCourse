@@ -27,16 +27,16 @@
 <script>
 export default {
   name: 'HomeworkCreate',
-  props: ['homework_create_form_visible_prop', 'course_prop'],
+  props: ['homework_create_form_visible_prop', 'chooseCourseId_prop'],
   data: function () {
     return {
-      course: this.course_prop,
+      course: {chooseCourseId: this.chooseCourseId_prop},
       homework: {}
     }
   },
   mounted: function () {
     var _this = this
-    _this.course = _this.course_prop
+    _this.course.chooseCourseId = _this.chooseCourseId_prop
   },
   methods: {
     changeHomeworkCreateVisible: function () {

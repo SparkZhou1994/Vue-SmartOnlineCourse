@@ -19,7 +19,7 @@
 <script>
 export default {
   name: 'CourseWareTable',
-  props: ['course_ware_list_prop'],
+  props: ['courseId_prop'],
   methods: {
     courseWareDownload (row) {
       var _this = this
@@ -41,17 +41,30 @@ export default {
             URL.revokeObjectURL(aTag.href)
           }
         })
+    },
+    getCourseWareList: function (courseId) {
+      var _this = this
+      this.$axios({
+        method: 'GET',
+        url: '/api/courseWare/' + courseId + '/0/5',
+        data: {}
+      })
+        .then(function (response) {
+          _this.courseWareList = response.data
+        })
     }
   },
   data () {
     return {
-      courseWareList: this.course_ware_list_prop,
-      courseWare: {}
+      courseWareList: [],
+      courseWare: {},
+      course: {courseId: this.courseId_prop}
     }
   },
-  mounted: function () {
+  created: function () {
     var _this = this
-    _this.courseWareList = _this.course_ware_list_prop
+    _this.course.courseId = _this.courseId_prop
+    _this.getCourseWareList(_this.course.courseId)
   }
 }
 </script>

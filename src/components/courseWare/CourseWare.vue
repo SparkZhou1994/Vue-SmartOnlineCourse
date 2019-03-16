@@ -1,22 +1,22 @@
 <template>
   <el-container>
     <el-header>
-      <Header :user_prop="user"></Header>
+      <Header :userId_prop="user.userId"></Header>
     </el-header>
     <el-main>
-      <CourseHeader :course_prop="course" :user_prop="user"></CourseHeader>
+      <CourseHeader :courseId_prop="course.courseId" :chooseCourseId_prop="course.chooseCourseId" :userId_prop="user.userId"></CourseHeader>
       <el-row>
         <el-col>
           <el-button type="primary" v-show="ownFlag" @click="course_ware_upload_form_visible = true">上传课件</el-button>
         </el-col>
       </el-row>
-      <CourseWareTable v-if="courseWareList.length > 0" :course_ware_list_prop="courseWareList"></CourseWareTable>
+      <CourseWareTable :courseId_prop="course.courseId"></CourseWareTable>
     </el-main>
     <el-footer>
       <Footer></Footer>
     </el-footer>
     <el-dialog title="上传课件" :visible.sync="course_ware_upload_form_visible">
-      <CourseWareUpload :course_prop="course" :course_ware_upload_form_visible_prop="course_ware_upload_form_visible" v-on:course_ware_upload_visible_false="changeCourseWareUploadVisibleFalse($event)"></CourseWareUpload>
+      <CourseWareUpload :courseId_prop="course.courseId" :course_ware_upload_form_visible_prop="course_ware_upload_form_visible" v-on:course_ware_upload_visible_false="changeCourseWareUploadVisibleFalse($event)"></CourseWareUpload>
     </el-dialog>
   </el-container>
 </template>
@@ -33,70 +33,41 @@ export default {
   components: {CourseWareUpload, CourseWareTable, Footer, CourseHeader, Header},
   data: function () {
     return {
-      user: {},
-      course: {},
+      user: {userId: this.$route.query.userId},
+      course: {courseId: this.$route.query.courseId, chooseCourseId: this.$route.query.chooseCourseId},
+      ownFlag: false,
       course_ware_upload_form_visible: false,
-      own: false,
-      courseWareList: [],
-      userId: this.$route.query.userId,
-      courseId: this.$route.query.courseId,
-      chooseCourseId: this.$route.query.chooseCourseId
+      courseWareList: []
     }
   },
-  computed: {
-    ownFlag: function () {
-      if (this.user.userId === this.course.ownerUserId) {
-        return true
-      } else {
-        return false
-      }
-    }
-  },
-  mounted: function () {
+  created: function () {
     var _this = this
-    _this.userId = _this.$route.query.userId
-    _this.courseId = _this.$route.query.courseId
-    _this.chooseCourseId = _this.$route.query.chooseCourseId
-    /*    if (_this.$route.params.user != null) {
-      _this.user = _this.$route.params.user
-    } else { */
+    _this.user.userId = _this.$route.query.userId
+    _this.course.courseId = _this.$route.query.courseId
+    _this.course.chooseCourseId = _this.$route.query.chooseCourseId
     this.$axios({
       method: 'GET',
-      url: '/api/user/' + _this.userId,
+      url: '/api/user/' + _this.user.userId,
       data: {}
     })
       .then(function (response) {
         _this.user = response.data
       })
-    /*    }
-    if (_this.$route.params.course != null) {
-      _this.course = _this.$route.params.course
-    } else { */
     this.$axios({
       method: 'GET',
-      url: '/api/chooseCourse/userId/' + _this.userId,
+      url: '/api/chooseCourse/userId/' + _this.user.userId,
       data: {}
     })
       .then(function (response) {
-        _this.course = response.datna
+        _this.course = response.data
+        if (response.data.ownUserId === _this.userId) {
+          _this.ownFlag = true
+        }
       })
-    /* } */
-    _this.getCourseWareList(_this.$route.query.courseId)
   },
   methods: {
     changeCourseWareUploadVisibleFalse (msg) {
       this.course_ware_upload_form_visible = msg
-    },
-    getCourseWareList: function (courseId) {
-      var _this = this
-      this.$axios({
-        method: 'GET',
-        url: '/api/courseWare/' + courseId + '/0/5',
-        data: {}
-      })
-        .then(function (response) {
-          _this.courseWareList = response.data
-        })
     }
   }
 }

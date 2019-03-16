@@ -23,16 +23,16 @@
 <script>
 export default {
   name: 'CourseWareUpload',
-  props: ['course_ware_upload_form_visible_prop', 'course_prop'],
+  props: ['course_ware_upload_form_visible_prop', 'courseId_prop'],
   data () {
     return {
-      course: this.course_prop,
+      course: {courseId: this.courseId_prop},
       courseWare: {}
     }
   },
-  mounted: function () {
+  created: function () {
     var _this = this
-    _this.course = _this.course_prop
+    _this.course.courseId = _this.courseId_prop
   },
   methods: {
     changeCourseWareUploadVisible: function () {

@@ -21,20 +21,26 @@
 <script>
 export default {
   name: 'DiscussContentRelease',
-  props: ['discuss_content_relaese_form_visible_prop', 'user_prop', 'course_prop', 'discuss_prop'],
+  props: ['discuss_content_relaese_form_visible_prop', 'userId_prop', 'discussId_prop'],
   data: function () {
     return {
-      discuss: this.discuss_prop,
-      user: this.user_prop,
-      course: this.course_prop,
+      discuss: {discussId: this.discussId_prop},
+      user: {userId: this.userId_prop},
       discussContent: {}
     }
   },
-  mounted: function () {
+  created: function () {
     var _this = this
-    _this.user = _this.user_prop
-    _this.course = _this.course_prop
-    _this.discuss = _this.discuss_prop
+    _this.user.userId = _this.userId_prop
+    _this.discuss.discussId = _this.discussId_prop
+    this.$axios({
+      method: 'GET',
+      url: '/api/discuss/' + _this.discuss.discussId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.discuss = response.data
+      })
   },
   methods: {
     changeDiscussContentReleaseVisible: function () {
