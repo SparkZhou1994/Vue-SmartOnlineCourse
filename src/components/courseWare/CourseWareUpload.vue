@@ -41,7 +41,7 @@ export default {
     beforeUpload: function (file) {
       const isLt10M = file.size / 1024 / 1024 < 10
       if (!isLt10M) {
-        this.$message.error('上传头像图片大小不能超过 10MB!')
+        this.$message.error('上传文件大小不能超过 10MB!')
       }
       return isLt10M
     },

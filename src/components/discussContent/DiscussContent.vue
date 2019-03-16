@@ -67,20 +67,61 @@ export default {
     return {
       discuss_content_release_form_visible: false,
       vote_content_release_form_visible: false,
-      user: this.$route.params.user,
-      course: this.$route.params.course,
-      discuss: this.$route.params.discuss,
+      user: {},
+      course: {},
+      discuss: {},
       result: false,
       voteResult: {},
-      discussContentList: []
+      discussContentList: [],
+      userId: this.$route.query.userId,
+      courseId: this.$route.query.courseId,
+      chooseCourseId: this.$route.query.chooseCourseId,
+      discussId: this.$route.query.discussId
     }
   },
   mounted: function () {
     var _this = this
-    _this.user = _this.$route.params.user
-    _this.course = _this.$route.params.course
-    _this.discuss = _this.$route.params.discuss
-    _this.getDiscussContentList(_this.discuss.discussId)
+    _this.userId = _this.$route.query.userId
+    _this.couserId = _this.$route.query.couserId
+    _this.chooseCourseId = _this.$route.query.chooseCourseId
+    _this.discussId = _this.$route.query.discussId
+    /*    if (_this.$route.params.user != null) {
+      _this.user = _this.$route.params.user
+    } else { */
+    this.$axios({
+      method: 'GET',
+      url: '/api/user/' + _this.userId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.user = response.data
+      })
+    /*    }
+    if (_this.$route.params.course != null) {
+      _this.course = _this.$route.params.course
+    } else { */
+    this.$axios({
+      method: 'GET',
+      url: '/api/chooseCourse/userId/' + _this.userId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.course = response.datna
+      })
+    /*    }
+    if (_this.$route.params.discuss != null) {
+      _this.discuss = _this.$route.params.discuss
+    } else { */
+    this.$axios({
+      method: 'GET',
+      url: '/api/discuss/' + _this.discussId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.discuss = response.datna
+      })
+    /* } */
+    _this.getDiscussContentList(_this.$route.query.discussId)
   },
   methods: {
     changeDiscussContentReleaseVisibleFalse (msg) {
@@ -104,7 +145,7 @@ export default {
       var _this = this
       this.$axios({
         method: 'GET',
-        url: '/api/discussContent/discussId/' + _this.discuss.discussId,
+        url: '/api/discussContent/discussId/' + _this.discussId,
         data: {}
       })
         .then(function (response) {

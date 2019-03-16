@@ -1,25 +1,25 @@
 <template>
 <el-row class="course-header">
   <el-col :xs="4" :sm="4">
-    <img src="../../assets/image/user/default.png" class="img-responseive img-thumbnail"/>
+    <img :src="course.avatar" class="img-responseive img-thumbnail"/>
   </el-col>
   <el-col :xs="16" :sm="12">
     <h3 class="text-left">{{course.courseName}}</h3>
     <h5 class="text-left">{{course.ownerUsername}}</h5>
     <ul class="text-left">
-      <router-link :to="{name: 'CourseWare', params: {user: this.user, course: this.course}}">
+      <router-link :to="{name: 'CourseWare', params: {user: this.user, course: this.course}, query: {userId: this.user.userId, courseId: this.course.courseId, chooseCourseId: this.course.chooseCourseId}}">
         <li><a>课件</a></li>
       </router-link>
-      <router-link :to="{name: 'Homework', params: {user: this.user, course: this.course}}">
+      <router-link :to="{name: 'Homework', params: {user: this.user, course: this.course}, query: {userId: this.user.userId, courseId: this.course.courseId, chooseCourseId: this.course.chooseCourseId}}">
         <li><a>作业</a></li>
       </router-link>
-      <router-link :to="{name: 'Discuss', params: {user: this.user, course: this.course}}">
+      <router-link :to="{name: 'Discuss', params: {user: this.user, course: this.course}, query: {userId: this.user.userId, courseId: this.course.courseId, chooseCourseId: this.course.chooseCourseId}}">
         <li><a>讨论/投票</a></li>
       </router-link>
-      <router-link :to="{name: 'Message', params: {user: this.user, course: this.course}}">
+      <router-link :to="{name: 'Message', params: {user: this.user, course: this.course}, query: {userId: this.user.userId, courseId: this.course.courseId, chooseCourseId: this.course.chooseCourseId}}">
         <li><a>消息</a></li>
       </router-link>
-      <router-link :to="{name: 'Sign', params: {user: this.user, course: this.course}}">
+      <router-link :to="{name: 'Sign', params: {user: this.user, course: this.course}, query: {userId: this.user.userId, courseId: this.course.courseId, chooseCourseId: this.course.chooseCourseId}}">
         <li><a>签到</a></li>
       </router-link>
     </ul>

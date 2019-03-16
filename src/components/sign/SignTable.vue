@@ -24,6 +24,7 @@ export default {
   },
   mounted: function () {
     var _this = this
+    console.log(_this.sign_list_prop)
     _this.signList = _this.sign_list_prop
   }
 }

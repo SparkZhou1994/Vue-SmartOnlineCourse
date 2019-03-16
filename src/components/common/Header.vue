@@ -13,25 +13,25 @@
     <el-col :xs="24" :sm="12">
       <el-menu mode="horizontal">
         <el-menu-item index="1">
-          <router-link :to="{name: 'CoursePackage', params: {user: this.user}}">
+          <router-link :to="{name: 'CoursePackage', params: {user: this.user}, query: {userId: this.user.userId}}">
             <a href="#"><i class="icon-library"></i>课程包</a>
           </router-link>
         </el-menu-item>
         <el-menu-item index="2">
-          <router-link :to="{name: 'MyIndex', params: {user: this.user}}">
+          <router-link :to="{name: 'MyIndex', params: {user: this.user}, query: {userId: this.user.userId}}">
             <a href="#"><i class="icon-book"></i>我的课程</a>
           </router-link>
         </el-menu-item>
         <el-menu-item index="3" class="hidden-sm-and-down">
-          <router-link :to="{name: 'MyInfor', params: {user: this.user}}">
+          <router-link :to="{name: 'MyInfor', params: {user: this.user}, query: {userId: this.user.userId}}">
             <a>
-              <img src="../../assets/image/user/default.png" height="60"/>
+              <img :src="user.avatar" height="60"/>
             </a>
           </router-link>
         </el-menu-item>
         <el-menu-item>
-          <router-link :to="{name: 'MyInfor', params: {user: this.user}}">
-            <a>Spark</a>
+          <router-link :to="{name: 'MyInfor', params: {user: this.user}, query: {userId: this.user.userId}}">
+            <a>{{user.username}}</a>
           </router-link>
         </el-menu-item>
         <el-menu-item >

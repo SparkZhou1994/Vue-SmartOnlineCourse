@@ -47,10 +47,10 @@ export default {
   components: {Header, Footer},
   data: function () {
     return {
-      course: [
-      ],
-      user: this.$route.params.user,
-      selectCourseName: ''
+      course: [],
+      user: {},
+      selectCourseName: '',
+      userId: this.$route.query.userId
     }
   },
   watch: {
@@ -60,7 +60,19 @@ export default {
   },
   mounted: function () {
     var _this = this
-    _this.user = _this.$route.params.user
+    _this.userId = _this.$routre.query.userId
+    /*    if (_this.$route.params.user != null) {
+      _this.user = _this.$route.params.user
+    } else { */
+    this.$axios({
+      method: 'GET',
+      url: '/api/user/' + _this.userId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.user = response.data
+      })
+    /* } */
     this.getTopCourse()
   },
   methods: {
@@ -76,7 +88,6 @@ export default {
         })
     },
     getSelectCourse: function () {
-      console.log('1')
       var _this = this
       this.$axios({
         method: 'GET',

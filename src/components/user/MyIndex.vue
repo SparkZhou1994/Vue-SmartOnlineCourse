@@ -24,7 +24,7 @@
         <el-col v-for="item in course" :key="item.index" :xs="12" :sm="6" :md="4">
           <a @click="signPage(item)">
             <el-card>
-              <img src="item.avatar" class="img-responsive img-thumbnail"/>
+              <img src="http://101.132.163.86:8090/user/default.png" class="img-responsive img-thumbnail"/>
               <div>
                 <h3>{{item.courseName}}</h3>
                 <h5>{{item.ownerUsername}}</h5>
@@ -56,17 +56,31 @@ export default {
   components: {JoinCourse, CreateCourse, Footer, Header},
   data: function () {
     return {
-      user: this.$route.params.user,
+      user: {userId: 1},
       visible: false,
       add_visible: false,
       join_visible: false,
+      userId: this.$route.query.userId,
       course: [
       ]
     }
   },
   mounted: function () {
     var _this = this
-    _this.user = _this.$route.params.user
+    _this.userId = _this.$route.query.userId
+    /*    if (_this.$route.param.user != null) {
+      _this.user = _this.$route.params.user
+    } else { */
+    this.$axios({
+      method: 'GET',
+      url: '/api/user/' + _this.userId,
+      data: {}
+    })
+      .then(function (response) {
+        console.log(response.data)
+        _this.user = response.data
+      })
+    /*    } */
     _this.getCourseList()
   },
   methods: {
@@ -74,7 +88,7 @@ export default {
       var _this = this
       this.$axios({
         method: 'GET',
-        url: '/api/chooseCourse/userId/' + _this.user.userId,
+        url: '/api/chooseCourse/userId/' + _this.userId,
         data: {}
       })
         .then(function (response) {
@@ -82,8 +96,9 @@ export default {
         })
     },
     signPage (courseItem) {
+      console.log(courseItem)
       var _this = this
-      _this.$router.push({name: 'Sign', params: {user: _this.user, course: courseItem}})
+      _this.$router.push({name: 'Sign', params: {user: _this.user, course: courseItem}, query: {userId: _this.userId, courseId: courseItem.courseId, chooseCourseId: courseItem.chooseCourseId}})
     },
     createCourse () {
       this.add_visible = true
