@@ -43,31 +43,43 @@ import HomeworkGrade from '../homework/HomeworkGrade'
 export default {
   name: 'HomeworkTable',
   components: {HomeworkUpload, HomeworkGrade},
-  props: ['homework_list_prop', 'course_prop', 'user_prop'],
+  props: ['courseId_prop', 'chooseCourseId_prop', 'userId_prop'],
   data () {
     return {
       homework_upload_form_visible: false,
       homework_grade_form_visible: false,
-      homeworkList: this.homework_list_prop,
-      course: this.course_prop,
-      user: this.user_prop,
+      homeworkList: [],
+      user: {userId: this.userId_prop},
+      course: {courseId: this.courseId_prop, chooseCourseId: this.chooseCourseId_prop},
+      ownFlag: false,
       homework: {}
     }
   },
-  computed: {
-    ownFlag: function () {
-      if (this.user.userId === this.course.ownerUserId) {
-        return true
-      } else {
-        return false
-      }
-    }
-  },
-  mounted: function () {
+  created: function () {
     var _this = this
-    _this.homeworkList = _this.homework_list_prop
-    _this.course = _this.course_prop
-    _this.user = _this.user_prop
+    _this.user.userId = _this.userId_prop
+    _this.course.courseId = _this.courseId_prop
+    _this.course.chooseCourseId = _this.chooseCourseId_prop
+    this.$axios({
+      method: 'GET',
+      url: '/api/user/' + _this.user.userId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.user = response.data
+      })
+    this.$axios({
+      method: 'GET',
+      url: '/api/chooseCourse/' + _this.course.chooseCourseId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.course = response.data
+        if (response.data.ownUserId === _this.userId) {
+          _this.ownFlag = true
+        }
+      })
+    _this.getHomeworkList(_this.course.chooseCourseId)
   },
   methods: {
     homeworkDownload (row) {
@@ -105,6 +117,17 @@ export default {
     },
     changeHomeworkGradeVisibleFalse (msg) {
       this.homework_grade_form_visible = msg
+    },
+    getHomeworkList: function (chooseCourseId) {
+      var _this = this
+      this.$axios({
+        method: 'GET',
+        url: '/api/homework/' + chooseCourseId + '/0/5',
+        data: {}
+      })
+        .then(function (response) {
+          _this.homeworkList = response.data
+        })
     }
   }
 }

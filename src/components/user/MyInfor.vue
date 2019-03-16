@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header>
-      <Header :user_prop="user"></Header>
+      <Header :userId_prop="user.userId"></Header>
     </el-header>
     <el-main>
       <el-form>
@@ -17,7 +17,7 @@
         <el-form-item>
           <el-row>
             <el-col :xs="12" :sm="12">
-              <img :src="userAvatar" class="img-responseive img-thumbnail"/>
+              <img :src="user.avatar" class="img-responseive img-thumbnail"/>
             </el-col>
             <el-col :xs="12" :sm="12">
               <el-upload action="/api/upload/user" :before-upload="beforeUpload" :on-success="getFileName" :limit="1" class="text-left">
@@ -46,33 +46,23 @@ export default {
   components: {Footer, Header},
   data: function () {
     return {
-      userId: this.$route.query.userId,
-      user: {},
+      user: {userId: this.$route.query.userId},
       message: {
         message: ''
       }
     }
   },
-  computed: {
-    userAvatar: function () {
-      return '/api/' + this.user.avatar
-    }
-  },
-  mounted: function () {
+  created: function () {
     var _this = this
-    _this.userId = _this.$route.query.userId
-    if (_this.$route.params.user != null) {
-      _this.user = _this.$route.params.user
-    } else {
-      this.$axios({
-        method: 'GET',
-        url: '/api/user/' + _this.userId,
-        data: {}
+    _this.user.userId = _this.$route.query.userId
+    this.$axios({
+      method: 'GET',
+      url: '/api/user/' + _this.user.userId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.user = response.data
       })
-        .then(function (response) {
-          _this.user = response.data
-        })
-    }
   },
   methods: {
     beforeUpload: function (file) {

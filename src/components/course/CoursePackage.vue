@@ -1,7 +1,7 @@
 <template>
     <el-container>
       <el-header>
-        <Header :user_prop="user"></Header>
+        <Header :userId_prop="user.userId"></Header>
       </el-header>
       <el-main>
         <el-row :gutter="2">
@@ -48,9 +48,8 @@ export default {
   data: function () {
     return {
       course: [],
-      user: {},
-      selectCourseName: '',
-      userId: this.$route.query.userId
+      user: {userId: this.$route.query.userId},
+      selectCourseName: ''
     }
   },
   watch: {
@@ -58,21 +57,17 @@ export default {
       this.course = val
     }
   },
-  mounted: function () {
+  created: function () {
     var _this = this
-    _this.userId = _this.$routre.query.userId
-    /*    if (_this.$route.params.user != null) {
-      _this.user = _this.$route.params.user
-    } else { */
+    _this.user.userId = _this.$route.query.userId
     this.$axios({
       method: 'GET',
-      url: '/api/user/' + _this.userId,
+      url: '/api/user/' + _this.user.userId,
       data: {}
     })
       .then(function (response) {
         _this.user = response.data
       })
-    /* } */
     this.getTopCourse()
   },
   methods: {

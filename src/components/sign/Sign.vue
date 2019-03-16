@@ -1,13 +1,13 @@
 <template>
   <el-container>
     <el-header>
-      <Header :user_prop="user"></Header>
+      <Header :userId_prop="user.userId"></Header>
     </el-header>
     <el-main>
-      <CourseHeader :course_prop="course" :user_prop="user"></CourseHeader>
-      <SignIn v-show="!ownFlag" :course_prop="course"></SignIn>
-      <SignRelease v-show="ownFlag" :course_prop="course"></SignRelease>
-      <SignTable :sign_list_prop="signList"></SignTable>
+      <CourseHeader :courseId_prop="course.courseId" :chooseCourseId_prop="course.chooseCourseId" :userId_prop="user.userId"></CourseHeader>
+      <SignIn v-show="!ownFlag" :chooseCourseId_prop="course.chooseCourseId"></SignIn>
+      <SignRelease v-show="ownFlag" :chooseCourseId_prop="course.chooseCourseId"></SignRelease>
+      <SignTable :chooseCourseId_prop="course.chooseCourseId"></SignTable>
     </el-main>
     <el-footer>
       <Footer></Footer>
@@ -28,39 +28,27 @@ export default {
   components: {SignTable, SignIn, SignRelease, Footer, CourseHeader, Header},
   data: function () {
     return {
-      user: {},
-      course: {},
-      signList: [],
-      own: false,
-      userId: this.$router.query.userId,
-      courseId: this.$router.query.courseId,
-      chooseCourseId: this.$router.query.chooseCourseId,
+      user: {userId: this.$route.query.userId},
+      course: {courseId: this.$route.query.courseId, chooseCourseId: this.$route.query.chooseCourseId},
       ownFlag: false
     }
   },
-  mounted: function () {
+  created: function () {
     var _this = this
-    _this.userId = _this.$route.query.userId
-    _this.courseId = _this.$route.query.courseId
-    _this.chooseCourseId = _this.$route.query.chooseCourseId
-    /*    if (_this.$route.params.user != null) {
-      _this.user = _this.$route.params.user
-    } else { */
+    _this.user.userId = _this.$route.query.userId
+    _this.course.courseId = _this.$route.query.courseId
+    _this.course.chooseCourseId = _this.$route.query.chooseCourseId
     this.$axios({
       method: 'GET',
-      url: '/api/user/' + _this.userId,
+      url: '/api/user/' + _this.user.userId,
       data: {}
     })
       .then(function (response) {
         _this.user = response.data
       })
-    /*    }
-    if (_this.$route.params.course != null) {
-      _this.course = _this.$route.params.course
-    } else { */
     this.$axios({
       method: 'GET',
-      url: '/api/chooseCourse/userId/' + _this.userId,
+      url: '/api/chooseCourse/' + _this.course.chooseCourseId,
       data: {}
     })
       .then(function (response) {
@@ -69,21 +57,6 @@ export default {
           _this.ownFlag = true
         }
       })
-    /* } */
-    _this.getSignList(_this.$route.query.chooseCourseId)
-  },
-  methods: {
-    getSignList: function (chooseCourseId) {
-      var _this = this
-      this.$axios({
-        method: 'GET',
-        url: '/api/sign/' + chooseCourseId + '/0/5',
-        data: {}
-      })
-        .then(function (response) {
-          _this.signList = response.data
-        })
-    }
   }
 }
 </script>

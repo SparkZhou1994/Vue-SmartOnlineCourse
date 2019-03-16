@@ -81,7 +81,7 @@ export default {
   mounted: function () {
     this.alter()
   },
-  methods: {
+  created: {
     alter: function () {
       this.$axios({
         method: 'GET',

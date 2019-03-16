@@ -16,16 +16,30 @@
 <script>
 export default {
   name: 'SignTable',
-  props: ['sign_list_prop'],
+  props: ['chooseCourseId_prop'],
   data () {
     return {
-      signList: this.sign_list_prop
+      course: {chooseCourseId: this.chooseCourseId_prop},
+      signList: []
     }
   },
-  mounted: function () {
+  created: function () {
     var _this = this
-    console.log(_this.sign_list_prop)
-    _this.signList = _this.sign_list_prop
+    _this.course.chooseCourseId = _this.chooseCourseId_prop
+    _this.getSignList(_this.course.chooseCourseId)
+  },
+  methods: {
+    getSignList: function (chooseCourseId) {
+      var _this = this
+      this.$axios({
+        method: 'GET',
+        url: '/api/sign/' + chooseCourseId + '/0/5',
+        data: {}
+      })
+        .then(function (response) {
+          _this.signList = response.data
+        })
+    }
   }
 }
 </script>
