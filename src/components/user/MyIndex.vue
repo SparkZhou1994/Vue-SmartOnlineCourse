@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header>
-      <Header :user_prop="user"></Header>
+      <Header :userId_prop="user.userId"></Header>
     </el-header>
     <el-main>
       <el-row>
@@ -24,7 +24,7 @@
         <el-col v-for="item in course" :key="item.index" :xs="12" :sm="6" :md="4">
           <a @click="signPage(item)">
             <el-card>
-              <img src="item.avatar" class="img-responsive img-thumbnail"/>
+              <img :src="item.avatar" class="img-responsive img-thumbnail"/>
               <div>
                 <h3>{{item.courseName}}</h3>
                 <h5>{{item.ownerUsername}}</h5>
@@ -56,17 +56,24 @@ export default {
   components: {JoinCourse, CreateCourse, Footer, Header},
   data: function () {
     return {
-      user: this.$route.params.user,
+      user: {userId: this.$route.query.userId},
       visible: false,
       add_visible: false,
       join_visible: false,
-      course: [
-      ]
+      course: []
     }
   },
-  mounted: function () {
+  created: function () {
     var _this = this
-    _this.user = _this.$route.params.user
+    _this.user.userId = _this.$route.query.userId
+    this.$axios({
+      method: 'GET',
+      url: '/api/user/' + _this.user.userId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.user = response.data
+      })
     _this.getCourseList()
   },
   methods: {
@@ -83,7 +90,7 @@ export default {
     },
     signPage (courseItem) {
       var _this = this
-      _this.$router.push({name: 'Sign', params: {user: _this.user, course: courseItem}})
+      _this.$router.push({name: 'Sign', query: {userId: _this.user.userId, courseId: courseItem.courseId, chooseCourseId: courseItem.chooseCourseId}})
     },
     createCourse () {
       this.add_visible = true

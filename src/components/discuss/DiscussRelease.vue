@@ -18,16 +18,16 @@
 <script>
 export default {
   name: 'DiscussRelease',
-  props: ['discuss_relaese_form_visible_prop', 'course_prop'],
+  props: ['discuss_relaese_form_visible_prop', 'chooseCourseId_prop'],
   data: function () {
     return {
-      course: this.course_prop,
+      course: {chooseCourseId: this.chooseCourseId_prop},
       discuss: {}
     }
   },
-  mounted: function () {
+  created: function () {
     var _this = this
-    _this.course = _this.course_prop
+    _this.course.chooseCourseId = _this.chooseCourseId_prop
   },
   methods: {
     changeDiscussReleaseVisible: function () {

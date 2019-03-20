@@ -41,7 +41,7 @@ export default {
       })
         .then(function (response) {
           if (response.data.loginSuccessful === 'Success') {
-            _this.$router.push({name: 'MyIndex', params: {user: response.data}})
+            _this.$router.push({name: 'MyIndex', params: {user: response.data}, query: {userId: response.data.userId}})
           } else {
             _this.$message.error('登录失败')
           }

@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header>
-      <Header :user_prop="user"></Header>
+      <Header :userId_prop="user.userId"></Header>
     </el-header>
     <el-main>
       <el-form>
@@ -17,7 +17,7 @@
         <el-form-item>
           <el-row>
             <el-col :xs="12" :sm="12">
-              <img src="../../assets/image/user/default.png" class="img-responseive img-thumbnail"/>
+              <img :src="user.avatar" class="img-responseive img-thumbnail"/>
             </el-col>
             <el-col :xs="12" :sm="12">
               <el-upload action="/api/upload/user" :before-upload="beforeUpload" :on-success="getFileName" :limit="1" class="text-left">
@@ -46,15 +46,23 @@ export default {
   components: {Footer, Header},
   data: function () {
     return {
-      user: this.$route.params.user,
+      user: {userId: this.$route.query.userId},
       message: {
         message: ''
       }
     }
   },
-  mounted: function () {
+  created: function () {
     var _this = this
-    _this.user = _this.$route.params.user
+    _this.user.userId = _this.$route.query.userId
+    this.$axios({
+      method: 'GET',
+      url: '/api/user/' + _this.user.userId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.user = response.data
+      })
   },
   methods: {
     beforeUpload: function (file) {
@@ -77,7 +85,7 @@ export default {
       _this.$axios({
         method: 'PUT',
         url: '/api/user',
-        data: {userId: _this.user.userId, username: _this.user.username, telphone: _this.user.telphone, version: _this.user.version, email: _this.user.email, avatar: _this.user.avatar}
+        data: {userId: _this.user.userId, username: _this.user.username, telphone: _this.user.telphone, version: _this.user.version, email: _this.user.email, avatar: 'http://101.132.163.86:8090/user/' + _this.user.avatar}
       })
         .then(function (response) {
           if (response.data.userId === _this.user.userId) {

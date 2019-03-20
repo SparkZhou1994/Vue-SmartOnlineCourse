@@ -1,10 +1,10 @@
 <template>
   <el-container>
     <el-header>
-      <Header :user_prop="user"></Header>
+      <Header :userId_prop="user.userId"></Header>
     </el-header>
     <el-main>
-      <CourseHeader :course_prop="course" :user_prop="user"></CourseHeader>
+      <CourseHeader :courseId_prop="course.courseId" :chooseCourseId_prop="course.chooseCourseId" :userId_prop="user.userId"></CourseHeader>
       <el-table :data="messageList" style="width: 100%" max-height="250" v-if="messageList.length > 0">
         <el-table-column prop="content" label="内容" width="150">
         </el-table-column>
@@ -33,15 +33,32 @@ export default {
   data: function () {
     return {
       messageList: [],
-      user: this.$route.params.user,
-      course: this.$route.params.course
+      user: {userId: this.$route.query.userId},
+      course: {courseId: this.$route.query.courseId, chooseCourseId: this.$route.query.chooseCourseId}
     }
   },
-  mounted: function () {
+  created: function () {
     var _this = this
-    _this.user = _this.$route.params.user
-    _this.course = _this.$route.params.course
-    _this.getMessageList(_this.course.chooseCourseId)
+    _this.user.userId = _this.$route.query.userId
+    _this.course.courseId = _this.$route.query.courseId
+    _this.course.chooseCourseId = _this.$route.query.chooseCourseId
+    this.$axios({
+      method: 'GET',
+      url: '/api/user/' + _this.user.userId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.user = response.data
+      })
+    this.$axios({
+      method: 'GET',
+      url: '/api/chooseCourse/' + _this.course.chooseCourseId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.course = response.data
+      })
+    _this.getMessageList(_this.$route.query.chooseCourseId)
   },
   methods: {
     deleteClick: function (row) {

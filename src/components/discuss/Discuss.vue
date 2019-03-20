@@ -1,10 +1,10 @@
 <template>
   <el-container>
     <el-header>
-      <Header :user_prop="user"></Header>
+      <Header :userId_prop="user.userId"></Header>
     </el-header>
     <el-main>
-      <CourseHeader :course_prop="course" :user_prop="user"></CourseHeader>
+      <CourseHeader :courseId_prop="course.courseId" :chooseCourseId_prop="course.chooseCourseId" :userId_prop="user.userId"></CourseHeader>
       <el-row :gutter="2">
         <el-col>
           <el-button type="primary" @click="discuss_release_form_visible = true">发布讨论</el-button>
@@ -31,10 +31,10 @@
       <Footer></Footer>
     </el-footer>
     <el-dialog title="创建讨论" :visible.sync="discuss_release_form_visible">
-      <DiscussRelease :course_prop="course" :discuss_release_form_visible_prop="discuss_release_form_visible" v-on:discuss_release_visible_false="changeDiscussReleaseVisibleFalse($event)"></DiscussRelease>
+      <DiscussRelease :chooseCourseId_prop="course.chooseCourseId" :discuss_release_form_visible_prop="discuss_release_form_visible" v-on:discuss_release_visible_false="changeDiscussReleaseVisibleFalse($event)"></DiscussRelease>
     </el-dialog>
     <el-dialog title="发起投票" :visible.sync="vote_release_form_visible">
-      <VoteRelease :course_prop="course" :vote_release_form_visible_prop="vote_release_form_visible" v-on:vote_release_visible_false="changeVoteReleaseVisibleFalse($event)"></VoteRelease>
+      <VoteRelease :chooseCourseId_prop="course.chooseCourseId" :vote_release_form_visible_prop="vote_release_form_visible" v-on:vote_release_visible_false="changeVoteReleaseVisibleFalse($event)"></VoteRelease>
     </el-dialog>
   </el-container>
 </template>
@@ -53,15 +53,35 @@ export default {
       discuss_release_form_visible: false,
       vote_release_form_visible: false,
       discussList: [],
-      user: this.$route.params.user,
-      course: this.$route.params.course
+      user: {userId: this.$route.query.userId},
+      course: {courseId: this.$route.query.courseId, chooseCourseId: this.$route.query.chooseCourseId}
     }
   },
-  mounted: function () {
+  created: function () {
     var _this = this
-    _this.user = _this.$route.params.user
-    _this.course = _this.$route.params.course
-    _this.getDiscussList(_this.course.chooseCourseId)
+    _this.user.userId = _this.$route.query.userId
+    _this.course.courseId = _this.$route.query.courseId
+    _this.course.chooseCourseId = _this.$route.query.chooseCourseId
+    this.$axios({
+      method: 'GET',
+      url: '/api/user/' + _this.user.userId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.user = response.data
+      })
+    this.$axios({
+      method: 'GET',
+      url: '/api/chooseCourse/' + _this.course.chooseCourseId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.course = response.data
+        if (response.data.ownUserId === _this.userId) {
+          _this.ownFlag = true
+        }
+      })
+    _this.getDiscussList(_this.$route.query.chooseCourseId)
   },
   methods: {
     changeDiscussReleaseVisibleFalse: function (msg) {
@@ -83,7 +103,7 @@ export default {
     },
     discussContentPage (item) {
       var _this = this
-      _this.$router.push({name: 'DiscussContent', params: {user: _this.user, discuss: item, course: _this.course}})
+      _this.$router.push({name: 'DiscussContent', query: {userId: _this.user.userId, courseId: _this.course.courseId, chooseCourseId: _this.course.chooseCourseId, discussId: item.discussId}})
     }
   }
 }

@@ -1,25 +1,25 @@
 <template>
 <el-row class="course-header">
   <el-col :xs="4" :sm="4">
-    <img src="../../assets/image/user/default.png" class="img-responseive img-thumbnail"/>
+    <img :src="course.avatar" class="img-responseive img-thumbnail"/>
   </el-col>
   <el-col :xs="16" :sm="12">
     <h3 class="text-left">{{course.courseName}}</h3>
     <h5 class="text-left">{{course.ownerUsername}}</h5>
     <ul class="text-left">
-      <router-link :to="{name: 'CourseWare', params: {user: this.user, course: this.course}}">
+      <router-link :to="{name: 'CourseWare', query: {userId: this.user.userId, courseId: this.course.courseId, chooseCourseId: this.course.chooseCourseId}}">
         <li><a>课件</a></li>
       </router-link>
-      <router-link :to="{name: 'Homework', params: {user: this.user, course: this.course}}">
+      <router-link :to="{name: 'Homework', query: {userId: this.user.userId, courseId: this.course.courseId, chooseCourseId: this.course.chooseCourseId}}">
         <li><a>作业</a></li>
       </router-link>
-      <router-link :to="{name: 'Discuss', params: {user: this.user, course: this.course}}">
+      <router-link :to="{name: 'Discuss', query: {userId: this.user.userId, courseId: this.course.courseId, chooseCourseId: this.course.chooseCourseId}}">
         <li><a>讨论/投票</a></li>
       </router-link>
-      <router-link :to="{name: 'Message', params: {user: this.user, course: this.course}}">
+      <router-link :to="{name: 'Message', query: {userId: this.user.userId, courseId: this.course.courseId, chooseCourseId: this.course.chooseCourseId}}">
         <li><a>消息</a></li>
       </router-link>
-      <router-link :to="{name: 'Sign', params: {user: this.user, course: this.course}}">
+      <router-link :to="{name: 'Sign', query: {userId: this.user.userId, courseId: this.course.courseId, chooseCourseId: this.course.chooseCourseId}}">
         <li><a>签到</a></li>
       </router-link>
     </ul>
@@ -31,17 +31,34 @@
 <script>
 export default {
   name: 'CourseHeader',
-  props: ['course_prop', 'user_prop'],
+  props: ['courseId_prop', 'userId_prop', 'chooseCourseId_prop'],
   data: function () {
     return {
-      course: this.course_prop,
-      user: this.user_prop
+      course: {chooseCourseId: this.chooseCourseId_prop, courseId: this.courseId_prop},
+      user: {userId: this.userId_prop}
     }
   },
-  mounted: function () {
+  created: function () {
     var _this = this
-    _this.course = _this.course_prop
-    _this.user = _this.user_prop
+    _this.user.userId = _this.$route.query.userId
+    _this.course.courseId = _this.$route.query.courseId
+    _this.course.chooseCourseId = _this.$route.query.chooseCourseId
+    this.$axios({
+      method: 'GET',
+      url: '/api/user/' + _this.user.userId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.user = response.data
+      })
+    this.$axios({
+      method: 'GET',
+      url: '/api/chooseCourse/' + _this.course.chooseCourseId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.course = response.data
+      })
   }
 }
 </script>

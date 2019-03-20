@@ -17,16 +17,16 @@
 <script>
 export default {
   name: 'ReleaseSign',
-  props: ['course_prop'],
+  props: ['chooseCourseId_prop'],
   data () {
     return {
-      course: this.course_prop,
+      course: {chooseCourseId: this.chooseCourseId_prop},
       sign: {}
     }
   },
-  mounted: function () {
+  created: function () {
     var _this = this
-    _this.course = _this.course_prop
+    _this.course.chooseCourseId = _this.chooseCourseId_prop
   },
   methods: {
     changeSignReleaseVisible: function () {

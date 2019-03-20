@@ -77,7 +77,7 @@ export default {
       this.$axios({
         method: 'POST',
         url: '/api/course',
-        data: {courseName: _this.course.courseName, catalog: _this.course.catalog, avatar: _this.course.avatar}
+        data: {courseName: _this.course.courseName, catalog: _this.course.catalog, avatar: 'http://101.132.163.86:8090/course/' + _this.course.avatar}
       })
         .then(function (response) {
           if (response.data.courseName === _this.course.courseName) {

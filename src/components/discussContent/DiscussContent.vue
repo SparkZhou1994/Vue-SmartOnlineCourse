@@ -1,10 +1,10 @@
 <template>
   <el-container>
     <el-header>
-      <Header :user_prop="user"></Header>
+      <Header :userId_prop="user.userId"></Header>
     </el-header>
     <el-main>
-      <CourseHeader :course_prop="course" :user_prop="user"></CourseHeader>
+      <CourseHeader :courseId_prop="course.courseId" :chooseCourseId_prop="course.chooseCourseId" :userId_prop="user.userId"></CourseHeader>
       <div v-show="discuss.vote === '讨论'">
         <el-row :gutter="2">
           <el-col>
@@ -46,10 +46,10 @@
       <Footer></Footer>
     </el-footer>
     <el-dialog title="发布讨论" :visible.sync="discuss_content_release_form_visible">
-      <DiscussContentRelease :user_prop="user" :course_prop="course" :discuss_prop="discuss" :discuss_content_release_form_visible_prop="discuss_content_release_form_visible" v-on:discuss_content_release_visible_false="changeDiscussContentReleaseVisibleFalse($event)"></DiscussContentRelease>
+      <DiscussContentRelease :userId_prop="user.userId" :discussId_prop="discuss.discussId" :discuss_content_release_form_visible_prop="discuss_content_release_form_visible" v-on:discuss_content_release_visible_false="changeDiscussContentReleaseVisibleFalse($event)"></DiscussContentRelease>
     </el-dialog>
     <el-dialog title="投票" :visible.sync="vote_content_release_form_visible">
-      <VoteContentRelease :user_prop="user" :course_prop="course" :discuss_prop="discuss" :vote_content_release_form_visible_prop="vote_content_release_form_visible" v-on:vote_content_release_visible_false="changeVoteContentReleaseVisibleFalse($event)" @message="voteMessage"></VoteContentRelease>
+      <VoteContentRelease :userId_prop="user.userId" :discussId_prop="discuss.discussId" :vote_content_release_form_visible_prop="vote_content_release_form_visible" v-on:vote_content_release_visible_false="changeVoteContentReleaseVisibleFalse($event)" @message="voteMessage"></VoteContentRelease>
     </el-dialog>
   </el-container>
 </template>
@@ -67,20 +67,45 @@ export default {
     return {
       discuss_content_release_form_visible: false,
       vote_content_release_form_visible: false,
-      user: this.$route.params.user,
-      course: this.$route.params.course,
-      discuss: this.$route.params.discuss,
+      user: {userId: this.$route.query.userId},
+      course: {courseId: this.$route.query.courseId, chooseCourseId: this.$route.query.chooseCourseId},
+      discuss: {discussId: this.$route.query.discussId},
       result: false,
       voteResult: {},
       discussContentList: []
     }
   },
-  mounted: function () {
+  created: function () {
     var _this = this
-    _this.user = _this.$route.params.user
-    _this.course = _this.$route.params.course
-    _this.discuss = _this.$route.params.discuss
-    _this.getDiscussContentList(_this.discuss.discussId)
+    _this.user.userId = _this.$route.query.userId
+    _this.course.courseId = _this.$route.query.courseId
+    _this.course.chooseCourseId = _this.$route.query.chooseCourseId
+    _this.discuss.discussId = _this.$route.query.discussId
+    this.$axios({
+      method: 'GET',
+      url: '/api/user/' + _this.user.userId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.user = response.data
+      })
+    this.$axios({
+      method: 'GET',
+      url: '/api/chooseCourse/userId/' + _this.user.userId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.course = response.data
+      })
+    this.$axios({
+      method: 'GET',
+      url: '/api/discuss/' + _this.discuss.discussId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.discuss = response.data
+      })
+    _this.getDiscussContentList(_this.$route.query.discussId)
   },
   methods: {
     changeDiscussContentReleaseVisibleFalse (msg) {
@@ -104,7 +129,7 @@ export default {
       var _this = this
       this.$axios({
         method: 'GET',
-        url: '/api/discussContent/discussId/' + _this.discuss.discussId,
+        url: '/api/discussContent/discussId/' + _this.discussId,
         data: {}
       })
         .then(function (response) {

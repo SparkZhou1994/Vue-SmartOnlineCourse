@@ -23,16 +23,16 @@
 <script>
 export default {
   name: 'CourseWareUpload',
-  props: ['course_ware_upload_form_visible_prop', 'course_prop'],
+  props: ['course_ware_upload_form_visible_prop', 'courseId_prop'],
   data () {
     return {
-      course: this.course_prop,
+      course: {courseId: this.courseId_prop},
       courseWare: {}
     }
   },
-  mounted: function () {
+  created: function () {
     var _this = this
-    _this.course = _this.course_prop
+    _this.course.courseId = _this.courseId_prop
   },
   methods: {
     changeCourseWareUploadVisible: function () {
@@ -41,7 +41,7 @@ export default {
     beforeUpload: function (file) {
       const isLt10M = file.size / 1024 / 1024 < 10
       if (!isLt10M) {
-        this.$message.error('上传头像图片大小不能超过 10MB!')
+        this.$message.error('上传文件大小不能超过 10MB!')
       }
       return isLt10M
     },
