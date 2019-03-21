@@ -67,10 +67,9 @@ export default {
   methods: {
     beforeUpload: function (file) {
       const isJPG = file.type === 'image/jpeg'
-      const isPNG = file.type === 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 2
-      if (!isJPG && !isPNG) {
-        this.$message.error('上传头像图片只能是 JPG 或 PNG 格式!')
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG!')
       }
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 2MB!')
@@ -85,7 +84,7 @@ export default {
       _this.$axios({
         method: 'PUT',
         url: '/api/user',
-        data: {userId: _this.user.userId, username: _this.user.username, telphone: _this.user.telphone, version: _this.user.version, email: _this.user.email, avatar: 'http://101.132.163.86:8090/user/' + _this.user.avatar}
+        data: {userId: _this.user.userId, username: _this.user.username, telphone: _this.user.telphone, version: _this.user.version, email: _this.user.email, avatar: _this.user.avatar}
       })
         .then(function (response) {
           if (response.data.userId === _this.user.userId) {

@@ -5,7 +5,7 @@
         <el-input v-model="user.email" placeholder="请输入邮箱" prefix-icon="icon-envelop"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-input v-model="user.encryptPassword" placeholder="请输入密码" prefix-icon="icon-lock"></el-input>
+        <el-input v-model="user.encryptPassword" type="password" placeholder="请输入密码" prefix-icon="icon-lock"></el-input>
       </el-form-item>
     </el-form>
     <a @click="register_form_visible = true"><h5>注册账号</h5></a>

@@ -55,6 +55,7 @@ export default {
         .then(function (response) {
           if (response.data.length >= 0) {
             _this.$message('作业创建成功')
+            location.reload()
           } else {
             _this.$message.error('作业创建失败')
           }

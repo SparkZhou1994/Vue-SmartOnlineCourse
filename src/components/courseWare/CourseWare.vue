@@ -7,7 +7,7 @@
       <CourseHeader :courseId_prop="course.courseId" :chooseCourseId_prop="course.chooseCourseId" :userId_prop="user.userId"></CourseHeader>
       <el-row>
         <el-col>
-          <el-button type="primary" v-show="ownFlag" @click="course_ware_upload_form_visible = true">上传课件</el-button>
+          <el-button v-show="ownFlag" type="primary" @click="course_ware_upload_form_visible = true">上传课件</el-button>
         </el-col>
       </el-row>
       <CourseWareTable :courseId_prop="course.courseId"></CourseWareTable>
@@ -55,12 +55,12 @@ export default {
       })
     this.$axios({
       method: 'GET',
-      url: '/api/chooseCourse/userId/' + _this.user.userId,
+      url: '/api/chooseCourse/' + _this.course.chooseCourseId,
       data: {}
     })
       .then(function (response) {
         _this.course = response.data
-        if (response.data.ownUserId === _this.userId) {
+        if (response.data.ownerUserId === response.data.userId) {
           _this.ownFlag = true
         }
       })

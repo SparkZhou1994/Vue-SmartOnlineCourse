@@ -55,6 +55,7 @@ export default {
         .then(function (response) {
           if (response.data.title === _this.discuss.title) {
             _this.$message('投票发起成功')
+            location.reload()
           } else {
             _this.$message.error('投票发起失败')
           }

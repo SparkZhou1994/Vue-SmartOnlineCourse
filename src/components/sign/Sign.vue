@@ -7,7 +7,7 @@
       <CourseHeader :courseId_prop="course.courseId" :chooseCourseId_prop="course.chooseCourseId" :userId_prop="user.userId"></CourseHeader>
       <SignIn v-show="!ownFlag" :chooseCourseId_prop="course.chooseCourseId"></SignIn>
       <SignRelease v-show="ownFlag" :chooseCourseId_prop="course.chooseCourseId"></SignRelease>
-      <SignTable :chooseCourseId_prop="course.chooseCourseId"></SignTable>
+      <SignTable :courseId_prop="course.courseId" :userId_prop="user.userId" :chooseCourseId_prop="course.chooseCourseId"></SignTable>
     </el-main>
     <el-footer>
       <Footer></Footer>
@@ -53,7 +53,7 @@ export default {
     })
       .then(function (response) {
         _this.course = response.data
-        if (response.data.ownUserId === _this.userId) {
+        if (response.data.ownerUserId === response.data.userId) {
           _this.ownFlag = true
         }
       })

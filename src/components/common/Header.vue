@@ -6,7 +6,7 @@
           <a href="#"><img src="../../assets/image/logo.png" height="60"></a>
         </el-menu-item>
         <el-menu-item>
-          <a>智能班课</a>
+          <a>共享班课</a>
         </el-menu-item>
       </el-menu>
     </el-col>

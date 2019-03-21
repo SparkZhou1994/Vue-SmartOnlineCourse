@@ -75,11 +75,11 @@ export default {
     })
       .then(function (response) {
         _this.course = response.data
-        if (response.data.ownUserId === _this.userId) {
+        if (response.data.ownerUserId === response.data.userId) {
           _this.ownFlag = true
         }
+        _this.getHomeworkList(_this.course.chooseCourseId, _this.courseId_prop, _this.ownFlag)
       })
-    _this.getHomeworkList(_this.course.chooseCourseId)
   },
   methods: {
     homeworkDownload (row) {
@@ -118,16 +118,27 @@ export default {
     changeHomeworkGradeVisibleFalse (msg) {
       this.homework_grade_form_visible = msg
     },
-    getHomeworkList: function (chooseCourseId) {
+    getHomeworkList: function (chooseCourseId, courseId, ownFlag) {
       var _this = this
-      this.$axios({
-        method: 'GET',
-        url: '/api/homework/' + chooseCourseId + '/0/5',
-        data: {}
-      })
-        .then(function (response) {
-          _this.homeworkList = response.data
+      if (ownFlag) {
+        this.$axios({
+          method: 'GET',
+          url: '/api/homework/courseId/' + courseId,
+          data: {}
         })
+          .then(function (response) {
+            _this.homeworkList = response.data
+          })
+      } else {
+        this.$axios({
+          method: 'GET',
+          url: '/api/homework/' + chooseCourseId + '/0/5',
+          data: {}
+        })
+          .then(function (response) {
+            _this.homeworkList = response.data
+          })
+      }
     }
   }
 }

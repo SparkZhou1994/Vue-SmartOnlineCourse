@@ -10,7 +10,7 @@
           <el-button type="primary" v-show="ownFlag" @click="homework_create_form_visible = true">作业创建</el-button>
         </el-col>
       </el-row>
-      <HomeworkTable :chooseCourseId_prop="course.chooseCourseId"></HomeworkTable>
+      <HomeworkTable :userId_prop="user.userId" :courseId_prop="course.courseId" :chooseCourseId_prop="course.chooseCourseId"></HomeworkTable>
     </el-main>
     <el-footer>
       <Footer></Footer>
@@ -59,7 +59,7 @@ export default {
     })
       .then(function (response) {
         _this.course = response.data
-        if (response.data.ownUserId === _this.userId) {
+        if (response.data.ownerUserId === response.data.userId) {
           _this.ownFlag = true
         }
       })

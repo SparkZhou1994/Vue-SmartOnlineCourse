@@ -56,6 +56,7 @@ export default {
         .then(function (response) {
           if (response.data.discussId === _this.discuss.discussId) {
             _this.$message('发布成功')
+            location.reload()
           } else {
             _this.$message.error('发布失败')
           }

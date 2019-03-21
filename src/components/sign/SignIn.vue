@@ -36,6 +36,7 @@ export default {
         .then(function (response) {
           if (response.data.code === _this.sign.code) {
             _this.$message('签到成功')
+            location.reload()
           } else {
             _this.$message.error('签到失败')
           }

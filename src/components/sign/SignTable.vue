@@ -16,29 +16,65 @@
 <script>
 export default {
   name: 'SignTable',
-  props: ['chooseCourseId_prop'],
+  props: ['chooseCourseId_prop', 'userId_prop', 'courseId_prop'],
   data () {
     return {
-      course: {chooseCourseId: this.chooseCourseId_prop},
-      signList: []
+      course: {chooseCourseId: this.chooseCourseId_prop, courseId: this.courseId_prop},
+      signList: [],
+      user: {userId: this.userId_prop},
+      ownFlag: false
     }
   },
   created: function () {
     var _this = this
     _this.course.chooseCourseId = _this.chooseCourseId_prop
-    _this.getSignList(_this.course.chooseCourseId)
+    _this.course.courseId = _this.courseId_prop
+    _this.user.userId = _this.userId_prop
+    this.$axios({
+      method: 'GET',
+      url: '/api/user/' + _this.user.userId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.user = response.data
+      })
+    this.$axios({
+      method: 'GET',
+      url: '/api/chooseCourse/' + _this.course.chooseCourseId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.course = response.data
+        if (response.data.ownerUserId === response.data.userId) {
+          _this.ownFlag = true
+          _this.getSignList(_this.course.chooseCourseId, true, _this.courseId_prop)
+        } else {
+          _this.getSignList(_this.course.chooseCourseId, false, _this.courseId_prop)
+        }
+      })
   },
   methods: {
-    getSignList: function (chooseCourseId) {
+    getSignList: function (chooseCourseId, ownFlag, courseId) {
       var _this = this
-      this.$axios({
-        method: 'GET',
-        url: '/api/sign/' + chooseCourseId + '/0/5',
-        data: {}
-      })
-        .then(function (response) {
-          _this.signList = response.data
+      if (ownFlag) {
+        this.$axios({
+          method: 'GET',
+          url: '/api/sign/courseId' + courseId,
+          data: {}
         })
+          .then(function (response) {
+            _this.signList = response.data
+          })
+      } else {
+        this.$axios({
+          method: 'GET',
+          url: '/api/sign/' + chooseCourseId + '/0/5',
+          data: {}
+        })
+          .then(function (response) {
+            _this.signList = response.data
+          })
+      }
     }
   }
 }

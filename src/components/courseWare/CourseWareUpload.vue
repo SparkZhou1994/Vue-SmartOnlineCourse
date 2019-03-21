@@ -33,6 +33,15 @@ export default {
   created: function () {
     var _this = this
     _this.course.courseId = _this.courseId_prop
+    this.$axios({
+      method: 'GET',
+      url: '/api/course/' + _this.course.courseId,
+      data: {}
+    })
+      .then(function (response) {
+        _this.course = response.data
+        console.log(response.data)
+      })
   },
   methods: {
     changeCourseWareUploadVisible: function () {
@@ -59,6 +68,7 @@ export default {
           console.log(response.data)
           if (response.data.courseId === _this.course.courseId) {
             _this.$message('课件创建成功')
+            location.reload()
           } else {
             _this.$message.error('课件创建失败')
           }

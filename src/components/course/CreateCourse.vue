@@ -77,11 +77,12 @@ export default {
       this.$axios({
         method: 'POST',
         url: '/api/course',
-        data: {courseName: _this.course.courseName, catalog: _this.course.catalog, avatar: 'http://101.132.163.86:8090/course/' + _this.course.avatar}
+        data: {userId: _this.user.userId, courseName: _this.course.courseName, catalog: _this.course.catalog, avatar: _this.course.avatar}
       })
         .then(function (response) {
           if (response.data.courseName === _this.course.courseName) {
             _this.$message('创建成功')
+            location.reload()
           } else {
             _this.$message.error('创建失败')
           }
@@ -93,10 +94,9 @@ export default {
     },
     beforeUpload: function (file) {
       const isJPG = file.type === 'image/jpeg'
-      const isPNG = file.type === 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 2
-      if (!isJPG && !isPNG) {
-        this.$message.error('上传头像图片只能是 JPG 或 PNG 格式!')
+      if (!isJPG) {
+        this.$message.error('上传头像图片只能是 JPG!')
       }
       if (!isLt2M) {
         this.$message.error('上传头像图片大小不能超过 2MB!')

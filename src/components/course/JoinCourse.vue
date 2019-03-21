@@ -40,6 +40,7 @@ export default {
         .then(function (response) {
           if (response.data.userId === _this.user.userId) {
             _this.$message('加入成功')
+            location.reload()
           } else {
             _this.$message.error('加入失败')
           }

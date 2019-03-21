@@ -39,6 +39,7 @@ export default {
         .then(function (response) {
           if (response.data.length > 0) {
             _this.$message('签到创建成功')
+            location.reload()
           } else {
             _this.$message.error('签到创建失败')
           }
