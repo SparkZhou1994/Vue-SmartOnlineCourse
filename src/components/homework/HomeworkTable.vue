@@ -92,7 +92,7 @@ export default {
         data: {}
       })
         .then(function (response) {
-          const blob = new Blob([response])
+          const blob = new Blob([response.data])
           if (window.navigator.msSaveOrOpenBlob) {
             navigator.msSaveOrOpenBlob(blob, _this.homework.attachment)
           } else {

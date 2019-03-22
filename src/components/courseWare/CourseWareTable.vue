@@ -30,12 +30,12 @@ export default {
         data: {}
       })
         .then(function (response) {
-          const blob = new Blob([response])
+          const blob = new Blob([response.data])
           if (window.navigator.msSaveOrOpenBlob) {
-            navigator.msSaveOrOpenBlob(blob, _this.homework.attachment)
+            navigator.msSaveOrOpenBlob(blob, _this.courseWare.attachment)
           } else {
             let aTag = document.createElement('a')
-            aTag.download = _this.homework.attachment
+            aTag.download = _this.courseWare.attachment
             aTag.href = URL.createObjectURL(blob)
             aTag.click()
             URL.revokeObjectURL(aTag.href)

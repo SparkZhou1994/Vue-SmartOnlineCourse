@@ -25,7 +25,7 @@ export default {
       ownFlag: false
     }
   },
-  created: function () {
+  mounted: function () {
     var _this = this
     _this.course.chooseCourseId = _this.chooseCourseId_prop
     _this.course.courseId = _this.courseId_prop
@@ -59,7 +59,7 @@ export default {
       if (ownFlag) {
         this.$axios({
           method: 'GET',
-          url: '/api/sign/courseId' + courseId,
+          url: '/api/sign/courseId/' + courseId,
           data: {}
         })
           .then(function (response) {
