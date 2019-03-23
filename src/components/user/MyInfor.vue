@@ -17,7 +17,7 @@
         <el-form-item>
           <el-row>
             <el-col :xs="12" :sm="12">
-              <img :src="user.avatar" class="img-responseive img-thumbnail"/>
+              <img :src="avatar" class="img-responseive img-thumbnail"/>
             </el-col>
             <el-col :xs="12" :sm="12">
               <el-upload action="/api/upload/user" :before-upload="beforeUpload" :on-success="getFileName" :limit="1" class="text-left">
@@ -49,7 +49,8 @@ export default {
       user: {userId: this.$route.query.userId},
       message: {
         message: ''
-      }
+      },
+      avatar: ''
     }
   },
   created: function () {
@@ -62,6 +63,7 @@ export default {
     })
       .then(function (response) {
         _this.user = response.data
+        _this.avatar = _this.user.avatar
       })
   },
   methods: {
@@ -89,6 +91,7 @@ export default {
         .then(function (response) {
           if (response.data.userId === _this.user.userId) {
             _this.$message('更新成功')
+            location.reload()
           } else {
             _this.$message.error('更新失败')
           }
