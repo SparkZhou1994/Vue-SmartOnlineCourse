@@ -5,13 +5,13 @@
     </el-header>
     <el-main>
       <CourseHeader :courseId_prop="course.courseId" :chooseCourseId_prop="course.chooseCourseId" :userId_prop="user.userId"></CourseHeader>
-      <el-row :gutter="2">
+      <el-row :gutter="20">
         <el-col>
           <el-button type="primary" @click="discuss_release_form_visible = true">发布讨论</el-button>
           <el-button type="primary" @click="vote_release_form_visible = true">发起投票</el-button>
         </el-col>
       </el-row>
-      <el-row :gutter="2">
+      <el-row :gutter="20">
         <el-col v-for="item in discussList" :key="item.index" :xs="12" :sm="6" :md="4">
           <a @click="discussContentPage(item)">
             <el-card>

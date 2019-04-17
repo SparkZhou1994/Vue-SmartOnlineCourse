@@ -24,7 +24,6 @@
       </router-link>
     </ul>
   </el-col>
-  <el-col xs="4" :sm="8" class="text-left"><h3 class="avg-score">{{course.avgScore}}</h3></el-col>
 </el-row>
 </template>
 
@@ -72,6 +71,7 @@ export default {
     background-size: cover;
   li
     display inline-block
+    margin-right 20px
   .avg-score:before
     content '评分:'
 </style>
